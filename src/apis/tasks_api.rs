@@ -45,7 +45,7 @@ pub enum UpdateTaskError {
 
 
 /// Creates a new task
-pub async fn create_task(configuration: &configuration::Configuration, container_id: &str, task: Option<crate::models::Task>) -> Result<crate::models::CreateTaskResponse, Error<CreateTaskError>> {
+pub fn create_task(configuration: &configuration::Configuration, container_id: &str, task: Option<crate::models::Task>) -> Result<crate::models::CreateTaskResponse, Error<CreateTaskError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -62,10 +62,10 @@ pub async fn create_task(configuration: &configuration::Configuration, container
     local_var_req_builder = local_var_req_builder.json(&task);
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)
@@ -77,7 +77,7 @@ pub async fn create_task(configuration: &configuration::Configuration, container
 }
 
 /// Retrieves a specific task by ID
-pub async fn get_task(configuration: &configuration::Configuration, container_id: &str, task_id: &str) -> Result<crate::models::GetTaskResponse, Error<GetTaskError>> {
+pub fn get_task(configuration: &configuration::Configuration, container_id: &str, task_id: &str) -> Result<crate::models::GetTaskResponse, Error<GetTaskError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -93,10 +93,10 @@ pub async fn get_task(configuration: &configuration::Configuration, container_id
     };
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)
@@ -108,7 +108,7 @@ pub async fn get_task(configuration: &configuration::Configuration, container_id
 }
 
 /// Lists all tasks with a \"ready\" status
-pub async fn list_tasks(configuration: &configuration::Configuration, container_id: &str) -> Result<crate::models::ListTasksResponse, Error<ListTasksError>> {
+pub fn list_tasks(configuration: &configuration::Configuration, container_id: &str) -> Result<crate::models::ListTasksResponse, Error<ListTasksError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -124,10 +124,10 @@ pub async fn list_tasks(configuration: &configuration::Configuration, container_
     };
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)
@@ -139,7 +139,7 @@ pub async fn list_tasks(configuration: &configuration::Configuration, container_
 }
 
 /// Updates a task
-pub async fn update_task(configuration: &configuration::Configuration, container_id: &str, task_id: &str, task: Option<crate::models::Task>) -> Result<crate::models::UpdateTaskResponse, Error<UpdateTaskError>> {
+pub fn update_task(configuration: &configuration::Configuration, container_id: &str, task_id: &str, task: Option<crate::models::Task>) -> Result<crate::models::UpdateTaskResponse, Error<UpdateTaskError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -156,10 +156,10 @@ pub async fn update_task(configuration: &configuration::Configuration, container
     local_var_req_builder = local_var_req_builder.json(&task);
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)

@@ -81,7 +81,7 @@ pub enum UpdateImportDataError {
 
 
 /// Adds data to an existing import. Accepts an array of JSON objects or a file in JSON or CSV format.
-pub async fn add_data_to_import(configuration: &configuration::Configuration, container_id: &str, import_id: &str, data_source_id: &str, request_body: Option<Vec<serde_json::Value>>) -> Result<crate::models::AddDataToImportResponse, Error<AddDataToImportError>> {
+pub fn add_data_to_import(configuration: &configuration::Configuration, container_id: &str, import_id: &str, data_source_id: &str, request_body: Option<Vec<serde_json::Value>>) -> Result<crate::models::AddDataToImportResponse, Error<AddDataToImportError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -98,10 +98,10 @@ pub async fn add_data_to_import(configuration: &configuration::Configuration, co
     local_var_req_builder = local_var_req_builder.json(&request_body);
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)
@@ -113,7 +113,7 @@ pub async fn add_data_to_import(configuration: &configuration::Configuration, co
 }
 
 /// Creates a new import.
-pub async fn create_import(configuration: &configuration::Configuration, container_id: &str, data_source_id: &str, create_import_request: Option<crate::models::CreateImportRequest>) -> Result<crate::models::CreateImportResponse, Error<CreateImportError>> {
+pub fn create_import(configuration: &configuration::Configuration, container_id: &str, data_source_id: &str, create_import_request: Option<crate::models::CreateImportRequest>) -> Result<crate::models::CreateImportResponse, Error<CreateImportError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -130,10 +130,10 @@ pub async fn create_import(configuration: &configuration::Configuration, contain
     local_var_req_builder = local_var_req_builder.json(&create_import_request);
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)
@@ -145,7 +145,7 @@ pub async fn create_import(configuration: &configuration::Configuration, contain
 }
 
 /// Delete a file
-pub async fn delete_file(configuration: &configuration::Configuration, ) -> Result<(), Error<DeleteFileError>> {
+pub fn delete_file(configuration: &configuration::Configuration, ) -> Result<(), Error<DeleteFileError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -161,10 +161,10 @@ pub async fn delete_file(configuration: &configuration::Configuration, ) -> Resu
     };
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         Ok(())
@@ -176,7 +176,7 @@ pub async fn delete_file(configuration: &configuration::Configuration, ) -> Resu
 }
 
 /// Delete import will delete an import ONLY IF the import has not been processed.
-pub async fn delete_import(configuration: &configuration::Configuration, container_id: &str, import_id: &str) -> Result<(), Error<DeleteImportError>> {
+pub fn delete_import(configuration: &configuration::Configuration, container_id: &str, import_id: &str) -> Result<(), Error<DeleteImportError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -192,10 +192,10 @@ pub async fn delete_import(configuration: &configuration::Configuration, contain
     };
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         Ok(())
@@ -207,7 +207,7 @@ pub async fn delete_import(configuration: &configuration::Configuration, contain
 }
 
 /// Delete a single piece of data from an import.
-pub async fn delete_import_data(configuration: &configuration::Configuration, container_id: &str, import_id: &str, data_id: i32) -> Result<crate::models::Generic200Response, Error<DeleteImportDataError>> {
+pub fn delete_import_data(configuration: &configuration::Configuration, container_id: &str, import_id: &str, data_id: i32) -> Result<crate::models::Generic200Response, Error<DeleteImportDataError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -223,10 +223,10 @@ pub async fn delete_import_data(configuration: &configuration::Configuration, co
     };
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)
@@ -238,7 +238,7 @@ pub async fn delete_import_data(configuration: &configuration::Configuration, co
 }
 
 /// List the data for an import.
-pub async fn list_imports_data(configuration: &configuration::Configuration, container_id: &str, import_id: &str, count: Option<&str>, limit: Option<i32>, offset: Option<i32>, sort_by: Option<&str>, sort_desc: Option<bool>) -> Result<crate::models::ListImportDataResponse, Error<ListImportsDataError>> {
+pub fn list_imports_data(configuration: &configuration::Configuration, container_id: &str, import_id: &str, count: Option<&str>, limit: Option<i32>, offset: Option<i32>, sort_by: Option<&str>, sort_desc: Option<bool>) -> Result<crate::models::ListImportDataResponse, Error<ListImportsDataError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -269,10 +269,10 @@ pub async fn list_imports_data(configuration: &configuration::Configuration, con
     };
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)
@@ -284,7 +284,7 @@ pub async fn list_imports_data(configuration: &configuration::Configuration, con
 }
 
 /// Update a file
-pub async fn put_containers_container_id_import_datasources_datasource_id_files_file_id(configuration: &configuration::Configuration, authorization: Option<&str>, put_containers_container_id_import_datasources_datasource_id_files_file_id_request: Option<crate::models::PutContainersContainerIdImportDatasourcesDatasourceIdFilesFileIdRequest>) -> Result<(), Error<PutContainersContainerIdImportDatasourcesDatasourceIdFilesFileIdError>> {
+pub fn put_containers_container_id_import_datasources_datasource_id_files_file_id(configuration: &configuration::Configuration, authorization: Option<&str>, put_containers_container_id_import_datasources_datasource_id_files_file_id_request: Option<crate::models::PutContainersContainerIdImportDatasourcesDatasourceIdFilesFileIdRequest>) -> Result<(), Error<PutContainersContainerIdImportDatasourcesDatasourceIdFilesFileIdError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -304,10 +304,10 @@ pub async fn put_containers_container_id_import_datasources_datasource_id_files_
     local_var_req_builder = local_var_req_builder.json(&put_containers_container_id_import_datasources_datasource_id_files_file_id_request);
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         Ok(())
@@ -319,7 +319,7 @@ pub async fn put_containers_container_id_import_datasources_datasource_id_files_
 }
 
 /// Retrieve a single piece of data from an import.
-pub async fn retrieve_import_data(configuration: &configuration::Configuration, container_id: &str, import_id: &str, data_id: i32) -> Result<crate::models::GetImportDataResponse, Error<RetrieveImportDataError>> {
+pub fn retrieve_import_data(configuration: &configuration::Configuration, container_id: &str, import_id: &str, data_id: i32) -> Result<crate::models::GetImportDataResponse, Error<RetrieveImportDataError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -335,10 +335,10 @@ pub async fn retrieve_import_data(configuration: &configuration::Configuration, 
     };
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)
@@ -350,7 +350,7 @@ pub async fn retrieve_import_data(configuration: &configuration::Configuration, 
 }
 
 /// Update the data of an existing import.
-pub async fn update_import_data(configuration: &configuration::Configuration, container_id: &str, import_id: &str, data_id: i32, data_staging: Option<crate::models::DataStaging>) -> Result<crate::models::UpdateImportDataResponse, Error<UpdateImportDataError>> {
+pub fn update_import_data(configuration: &configuration::Configuration, container_id: &str, import_id: &str, data_id: i32, data_staging: Option<crate::models::DataStaging>) -> Result<crate::models::UpdateImportDataResponse, Error<UpdateImportDataError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -367,10 +367,10 @@ pub async fn update_import_data(configuration: &configuration::Configuration, co
     local_var_req_builder = local_var_req_builder.json(&data_staging);
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)

@@ -59,7 +59,7 @@ pub enum StopDataExportError {
 
 
 /// Create a new data export with the included configuration. Configuration values may be encrypted depending on the adapter you've choosen. See the readme for the exporters for more information.
-pub async fn create_data_export(configuration: &configuration::Configuration, container_id: &str, body: crate::models::CreateDataExportRequest) -> Result<crate::models::Generic200Response, Error<CreateDataExportError>> {
+pub fn create_data_export(configuration: &configuration::Configuration, container_id: &str, body: crate::models::CreateDataExportRequest) -> Result<crate::models::Generic200Response, Error<CreateDataExportError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -76,10 +76,10 @@ pub async fn create_data_export(configuration: &configuration::Configuration, co
     local_var_req_builder = local_var_req_builder.json(&body);
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)
@@ -91,7 +91,7 @@ pub async fn create_data_export(configuration: &configuration::Configuration, co
 }
 
 /// Deletes a data export record. This does not guarantee the export will stop immediately.
-pub async fn delete_data_export(configuration: &configuration::Configuration, container_id: &str, export_id: &str) -> Result<crate::models::Generic200Response, Error<DeleteDataExportError>> {
+pub fn delete_data_export(configuration: &configuration::Configuration, container_id: &str, export_id: &str) -> Result<crate::models::Generic200Response, Error<DeleteDataExportError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -107,10 +107,10 @@ pub async fn delete_data_export(configuration: &configuration::Configuration, co
     };
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)
@@ -122,7 +122,7 @@ pub async fn delete_data_export(configuration: &configuration::Configuration, co
 }
 
 /// List data exports for the container.
-pub async fn list_data_exports(configuration: &configuration::Configuration, container_id: &str, count: Option<bool>, limit: Option<i32>, offset: Option<i32>, sort_by: Option<&str>, sort_desc: Option<bool>) -> Result<crate::models::ListDataExportsResponse, Error<ListDataExportsError>> {
+pub fn list_data_exports(configuration: &configuration::Configuration, container_id: &str, count: Option<bool>, limit: Option<i32>, offset: Option<i32>, sort_by: Option<&str>, sort_desc: Option<bool>) -> Result<crate::models::ListDataExportsResponse, Error<ListDataExportsError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -153,10 +153,10 @@ pub async fn list_data_exports(configuration: &configuration::Configuration, con
     };
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)
@@ -168,7 +168,7 @@ pub async fn list_data_exports(configuration: &configuration::Configuration, con
 }
 
 /// Fetch a data export record by ID
-pub async fn retrieve_data_export(configuration: &configuration::Configuration, container_id: &str, export_id: &str) -> Result<crate::models::GetDataExportResponse, Error<RetrieveDataExportError>> {
+pub fn retrieve_data_export(configuration: &configuration::Configuration, container_id: &str, export_id: &str) -> Result<crate::models::GetDataExportResponse, Error<RetrieveDataExportError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -184,10 +184,10 @@ pub async fn retrieve_data_export(configuration: &configuration::Configuration, 
     };
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)
@@ -199,7 +199,7 @@ pub async fn retrieve_data_export(configuration: &configuration::Configuration, 
 }
 
 /// Start or restart a data export by id.
-pub async fn start_data_export(configuration: &configuration::Configuration, container_id: &str, export_id: &str) -> Result<crate::models::Generic200Response, Error<StartDataExportError>> {
+pub fn start_data_export(configuration: &configuration::Configuration, container_id: &str, export_id: &str) -> Result<crate::models::Generic200Response, Error<StartDataExportError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -215,10 +215,10 @@ pub async fn start_data_export(configuration: &configuration::Configuration, con
     };
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)
@@ -230,7 +230,7 @@ pub async fn start_data_export(configuration: &configuration::Configuration, con
 }
 
 /// Stops a data export. Please note that this just sends a **stop** signal. The application's export adapter determines how to handle the said signal. In some cases the export stopping might not be immediate.
-pub async fn stop_data_export(configuration: &configuration::Configuration, container_id: &str, export_id: &str) -> Result<crate::models::Generic200Response, Error<StopDataExportError>> {
+pub fn stop_data_export(configuration: &configuration::Configuration, container_id: &str, export_id: &str) -> Result<crate::models::Generic200Response, Error<StopDataExportError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -246,10 +246,10 @@ pub async fn stop_data_export(configuration: &configuration::Configuration, cont
     };
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)

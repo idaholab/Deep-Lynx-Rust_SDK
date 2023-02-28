@@ -31,7 +31,7 @@ pub enum QueryGraphError {
 
 
 /// Query data from your container using GraphQL. You can learn more here - https://gitlab.software.inl.gov/b650/Deep-Lynx/-/wikis/Querying-Data-With-GraphQL
-pub async fn data_query(configuration: &configuration::Configuration, container_id: &str, body: serde_json::Value, metadata_enabled: Option<bool>, point_in_time: Option<&str>) -> Result<crate::models::QueryGraph200Response, Error<DataQueryError>> {
+pub fn data_query(configuration: &configuration::Configuration, container_id: &str, body: serde_json::Value, metadata_enabled: Option<bool>, point_in_time: Option<&str>) -> Result<crate::models::QueryGraph200Response, Error<DataQueryError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -54,10 +54,10 @@ pub async fn data_query(configuration: &configuration::Configuration, container_
     local_var_req_builder = local_var_req_builder.json(&body);
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)
@@ -69,7 +69,7 @@ pub async fn data_query(configuration: &configuration::Configuration, container_
 }
 
 /// Query the graph of the specified container using GraphQL. GraphQL queries may be formatted as json or plain text. This has been deprecated in favor of the `/containers/{container_id}/data` endpoint.
-pub async fn query_graph(configuration: &configuration::Configuration, container_id: &str, body: serde_json::Value) -> Result<crate::models::QueryGraph200Response, Error<QueryGraphError>> {
+pub fn query_graph(configuration: &configuration::Configuration, container_id: &str, body: serde_json::Value) -> Result<crate::models::QueryGraph200Response, Error<QueryGraphError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -86,10 +86,10 @@ pub async fn query_graph(configuration: &configuration::Configuration, container
     local_var_req_builder = local_var_req_builder.json(&body);
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)

@@ -52,7 +52,7 @@ pub enum UpdateMetatypeRelationshipError {
 
 
 /// Archive the metatype relationship.
-pub async fn archive_metatype_relationship(configuration: &configuration::Configuration, container_id: &str, relationship_id: &str) -> Result<crate::models::Generic200Response, Error<ArchiveMetatypeRelationshipError>> {
+pub fn archive_metatype_relationship(configuration: &configuration::Configuration, container_id: &str, relationship_id: &str) -> Result<crate::models::Generic200Response, Error<ArchiveMetatypeRelationshipError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -68,10 +68,10 @@ pub async fn archive_metatype_relationship(configuration: &configuration::Config
     };
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)
@@ -83,7 +83,7 @@ pub async fn archive_metatype_relationship(configuration: &configuration::Config
 }
 
 /// Create a new metatype relationship. Describes the connection that could exist between two metatypes and acts as a vehicle for relationship specific keys. Pass in an array for bulk creation.
-pub async fn create_metatype_relationship(configuration: &configuration::Configuration, container_id: &str, body: crate::models::CreateMetatypeRelationshipRequest) -> Result<crate::models::CreateMetatypeRelationshipsResponse, Error<CreateMetatypeRelationshipError>> {
+pub fn create_metatype_relationship(configuration: &configuration::Configuration, container_id: &str, body: crate::models::CreateMetatypeRelationshipRequest) -> Result<crate::models::CreateMetatypeRelationshipsResponse, Error<CreateMetatypeRelationshipError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -100,10 +100,10 @@ pub async fn create_metatype_relationship(configuration: &configuration::Configu
     local_var_req_builder = local_var_req_builder.json(&body);
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)
@@ -115,7 +115,7 @@ pub async fn create_metatype_relationship(configuration: &configuration::Configu
 }
 
 /// List metatype relationships. Describes the connection between two metatypes and acts as a vehicle for relationship specific keys.
-pub async fn list_metatype_relationships(configuration: &configuration::Configuration, container_id: &str, limit: Option<i32>, offset: Option<i32>, name: Option<&str>, description: Option<&str>, count: Option<&str>, load_keys: Option<&str>, sort_by: Option<&str>, sort_desc: Option<&str>) -> Result<crate::models::ListMetatypeRelationshipsResponse, Error<ListMetatypeRelationshipsError>> {
+pub fn list_metatype_relationships(configuration: &configuration::Configuration, container_id: &str, limit: Option<i32>, offset: Option<i32>, name: Option<&str>, description: Option<&str>, count: Option<&str>, load_keys: Option<&str>, sort_by: Option<&str>, sort_desc: Option<&str>) -> Result<crate::models::ListMetatypeRelationshipsResponse, Error<ListMetatypeRelationshipsError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -155,10 +155,10 @@ pub async fn list_metatype_relationships(configuration: &configuration::Configur
     };
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)
@@ -170,7 +170,7 @@ pub async fn list_metatype_relationships(configuration: &configuration::Configur
 }
 
 /// Retrieve a single Metatype Relationship.
-pub async fn retrieve_metatype_relationship(configuration: &configuration::Configuration, container_id: &str, relationship_id: &str) -> Result<crate::models::GetMetatypeRelationshipResponse, Error<RetrieveMetatypeRelationshipError>> {
+pub fn retrieve_metatype_relationship(configuration: &configuration::Configuration, container_id: &str, relationship_id: &str) -> Result<crate::models::GetMetatypeRelationshipResponse, Error<RetrieveMetatypeRelationshipError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -186,10 +186,10 @@ pub async fn retrieve_metatype_relationship(configuration: &configuration::Confi
     };
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)
@@ -201,7 +201,7 @@ pub async fn retrieve_metatype_relationship(configuration: &configuration::Confi
 }
 
 /// Updates the specified metatype relationship.
-pub async fn update_metatype_relationship(configuration: &configuration::Configuration, container_id: &str, relationship_id: &str, body: crate::models::UpdateMetatypeRelationshipRequest) -> Result<crate::models::UpdateMetatypeRelationshipResponse, Error<UpdateMetatypeRelationshipError>> {
+pub fn update_metatype_relationship(configuration: &configuration::Configuration, container_id: &str, relationship_id: &str, body: crate::models::UpdateMetatypeRelationshipRequest) -> Result<crate::models::UpdateMetatypeRelationshipResponse, Error<UpdateMetatypeRelationshipError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -218,10 +218,10 @@ pub async fn update_metatype_relationship(configuration: &configuration::Configu
     local_var_req_builder = local_var_req_builder.json(&body);
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)

@@ -31,7 +31,7 @@ pub enum TimeseriesNodeQueryError {
 
 
 /// This is an endpoint that accepts a GraphQL query and returns the results of that query. Primarily used for working with time series data without requiring attachment to a node.
-pub async fn timeseries_data_source_query(configuration: &configuration::Configuration, container_id: &str, data_source_id: &str) -> Result<(), Error<TimeseriesDataSourceQueryError>> {
+pub fn timeseries_data_source_query(configuration: &configuration::Configuration, container_id: &str, data_source_id: &str) -> Result<(), Error<TimeseriesDataSourceQueryError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -47,10 +47,10 @@ pub async fn timeseries_data_source_query(configuration: &configuration::Configu
     };
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         Ok(())
@@ -62,7 +62,7 @@ pub async fn timeseries_data_source_query(configuration: &configuration::Configu
 }
 
 /// This is an endpoint that accepts a GraphQL query and returns the results of that query. Primarily used for working with time series data on nodes.
-pub async fn timeseries_node_query(configuration: &configuration::Configuration, container_id: &str, node_id: &str) -> Result<(), Error<TimeseriesNodeQueryError>> {
+pub fn timeseries_node_query(configuration: &configuration::Configuration, container_id: &str, node_id: &str) -> Result<(), Error<TimeseriesNodeQueryError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -78,10 +78,10 @@ pub async fn timeseries_node_query(configuration: &configuration::Configuration,
     };
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         Ok(())

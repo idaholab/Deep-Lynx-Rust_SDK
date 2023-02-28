@@ -154,7 +154,7 @@ pub enum UpdateContainerImportError {
 
 
 /// Post with no body to acknowledge an alert and remove it from the active alerts list.
-pub async fn acknowledge_container_alert(configuration: &configuration::Configuration, container_id: &str, alert_id: &str) -> Result<(), Error<AcknowledgeContainerAlertError>> {
+pub fn acknowledge_container_alert(configuration: &configuration::Configuration, container_id: &str, alert_id: &str) -> Result<(), Error<AcknowledgeContainerAlertError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -170,10 +170,10 @@ pub async fn acknowledge_container_alert(configuration: &configuration::Configur
     };
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         Ok(())
@@ -185,7 +185,7 @@ pub async fn acknowledge_container_alert(configuration: &configuration::Configur
 }
 
 /// Approves an ontology version
-pub async fn approve_ontology_version(configuration: &configuration::Configuration, container_id: &str, ontology_version_id: &str) -> Result<(), Error<ApproveOntologyVersionError>> {
+pub fn approve_ontology_version(configuration: &configuration::Configuration, container_id: &str, ontology_version_id: &str) -> Result<(), Error<ApproveOntologyVersionError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -201,10 +201,10 @@ pub async fn approve_ontology_version(configuration: &configuration::Configurati
     };
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         Ok(())
@@ -216,7 +216,7 @@ pub async fn approve_ontology_version(configuration: &configuration::Configurati
 }
 
 /// Archives a Container. This is preferred over deletion as deletion has a cascading effect on the deleted type's keys, relationships, and relationship keys. When in doubt, archive over delete. We'd rather have tombstones than cremating the type.
-pub async fn archive_container(configuration: &configuration::Configuration, container_id: &str, permanent: Option<bool>) -> Result<crate::models::Generic200Response, Error<ArchiveContainerError>> {
+pub fn archive_container(configuration: &configuration::Configuration, container_id: &str, permanent: Option<bool>) -> Result<crate::models::Generic200Response, Error<ArchiveContainerError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -235,10 +235,10 @@ pub async fn archive_container(configuration: &configuration::Configuration, con
     };
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)
@@ -250,7 +250,7 @@ pub async fn archive_container(configuration: &configuration::Configuration, con
 }
 
 /// Accepts an array of container objects - will attempt to update all of them in a single transaction. If the update fails, none of them will go through.
-pub async fn container_batch_update(configuration: &configuration::Configuration, body: Vec<crate::models::BatchContainerUpdateRequestInner>) -> Result<crate::models::BatchUpdateContainerResponse, Error<ContainerBatchUpdateError>> {
+pub fn container_batch_update(configuration: &configuration::Configuration, body: Vec<crate::models::BatchContainerUpdateRequestInner>) -> Result<crate::models::BatchUpdateContainerResponse, Error<ContainerBatchUpdateError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -267,10 +267,10 @@ pub async fn container_batch_update(configuration: &configuration::Configuration
     local_var_req_builder = local_var_req_builder.json(&body);
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)
@@ -282,7 +282,7 @@ pub async fn container_batch_update(configuration: &configuration::Configuration
 }
 
 /// Creates a new container object. Containers are the root level object and are considered to contain both the ontology(in form of Metatypes, Metatype Keys, and MetatypeRelationships) as well as the data stored under that ontology. Endpoint will accept both a single container request object, or an array of container request objects
-pub async fn create_container(configuration: &configuration::Configuration, body: crate::models::CreateContainerRequest) -> Result<crate::models::CreateContainerResponse, Error<CreateContainerError>> {
+pub fn create_container(configuration: &configuration::Configuration, body: crate::models::CreateContainerRequest) -> Result<crate::models::CreateContainerResponse, Error<CreateContainerError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -299,10 +299,10 @@ pub async fn create_container(configuration: &configuration::Configuration, body
     local_var_req_builder = local_var_req_builder.json(&body);
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)
@@ -314,7 +314,7 @@ pub async fn create_container(configuration: &configuration::Configuration, body
 }
 
 /// An optional query param `dryrun` may be included with a value of `true` in order to return a HTML formatted string explaining the name and description of the container along with the number of metatypes, metatype relationships, and metatype keys to be created. This request uses a form-data body. If the ontology to be imported is being referenced via url, provide the url via a `path` field. Otherwise a local file may be provided. A file takes precedence over a `path` value if both are provided.
-pub async fn import_container(configuration: &configuration::Configuration, name: &str, description: &str, data_versioning_enabled: bool, dryrun: Option<bool>, path: Option<&str>, file: Option<std::path::PathBuf>) -> Result<crate::models::ContainerImportResponse, Error<ImportContainerError>> {
+pub fn import_container(configuration: &configuration::Configuration, name: &str, description: &str, data_versioning_enabled: bool, dryrun: Option<bool>, path: Option<&str>, file: Option<std::path::PathBuf>) -> Result<crate::models::ContainerImportResponse, Error<ImportContainerError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -338,14 +338,16 @@ pub async fn import_container(configuration: &configuration::Configuration, name
     if let Some(local_var_param_value) = path {
         local_var_form = local_var_form.text("path", local_var_param_value.to_string());
     }
-    // TODO: support file upload for 'file' parameter
+    if let Some(local_var_param_value) = file {
+        local_var_form = local_var_form.file("file", local_var_param_value)?;
+    }
     local_var_req_builder = local_var_req_builder.multipart(local_var_form);
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)
@@ -357,7 +359,7 @@ pub async fn import_container(configuration: &configuration::Configuration, name
 }
 
 /// List all active alerts for a container by ID.
-pub async fn list_container_alerts(configuration: &configuration::Configuration, container_id: &str) -> Result<(), Error<ListContainerAlertsError>> {
+pub fn list_container_alerts(configuration: &configuration::Configuration, container_id: &str) -> Result<(), Error<ListContainerAlertsError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -373,10 +375,10 @@ pub async fn list_container_alerts(configuration: &configuration::Configuration,
     };
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         Ok(())
@@ -388,7 +390,7 @@ pub async fn list_container_alerts(configuration: &configuration::Configuration,
 }
 
 /// List all containers.
-pub async fn list_containers(configuration: &configuration::Configuration, ) -> Result<crate::models::ListContainerResponse, Error<ListContainersError>> {
+pub fn list_containers(configuration: &configuration::Configuration, ) -> Result<crate::models::ListContainerResponse, Error<ListContainersError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -404,10 +406,10 @@ pub async fn list_containers(configuration: &configuration::Configuration, ) -> 
     };
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)
@@ -419,7 +421,7 @@ pub async fn list_containers(configuration: &configuration::Configuration, ) -> 
 }
 
 /// Lists all versions of the ontology for a container.
-pub async fn list_ontology_versions(configuration: &configuration::Configuration, container_id: &str) -> Result<crate::models::ListOntologyVersions200Response, Error<ListOntologyVersionsError>> {
+pub fn list_ontology_versions(configuration: &configuration::Configuration, container_id: &str) -> Result<crate::models::ListOntologyVersions200Response, Error<ListOntologyVersionsError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -435,10 +437,10 @@ pub async fn list_ontology_versions(configuration: &configuration::Configuration
     };
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)
@@ -450,7 +452,7 @@ pub async fn list_ontology_versions(configuration: &configuration::Configuration
 }
 
 /// Publishes an ontology version
-pub async fn publish_ontology_version(configuration: &configuration::Configuration, container_id: &str, ontology_version_id: &str) -> Result<(), Error<PublishOntologyVersionError>> {
+pub fn publish_ontology_version(configuration: &configuration::Configuration, container_id: &str, ontology_version_id: &str) -> Result<(), Error<PublishOntologyVersionError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -466,10 +468,10 @@ pub async fn publish_ontology_version(configuration: &configuration::Configurati
     };
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         Ok(())
@@ -481,7 +483,7 @@ pub async fn publish_ontology_version(configuration: &configuration::Configurati
 }
 
 /// Rejects an ontology version (either in a pending status or after it has been approved).
-pub async fn reject_ontology_version_approval(configuration: &configuration::Configuration, container_id: &str, ontology_version_id: &str) -> Result<(), Error<RejectOntologyVersionApprovalError>> {
+pub fn reject_ontology_version_approval(configuration: &configuration::Configuration, container_id: &str, ontology_version_id: &str) -> Result<(), Error<RejectOntologyVersionApprovalError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -497,10 +499,10 @@ pub async fn reject_ontology_version_approval(configuration: &configuration::Con
     };
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         Ok(())
@@ -512,7 +514,7 @@ pub async fn reject_ontology_version_approval(configuration: &configuration::Con
 }
 
 /// Repairs a container's permission set
-pub async fn repair_container_permissions(configuration: &configuration::Configuration, container_id: &str) -> Result<crate::models::Generic200Response, Error<RepairContainerPermissionsError>> {
+pub fn repair_container_permissions(configuration: &configuration::Configuration, container_id: &str) -> Result<crate::models::Generic200Response, Error<RepairContainerPermissionsError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -528,10 +530,10 @@ pub async fn repair_container_permissions(configuration: &configuration::Configu
     };
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)
@@ -543,7 +545,7 @@ pub async fn repair_container_permissions(configuration: &configuration::Configu
 }
 
 /// Retrieve container by ID.
-pub async fn retrieve_container(configuration: &configuration::Configuration, container_id: &str) -> Result<crate::models::GetContainerResponse, Error<RetrieveContainerError>> {
+pub fn retrieve_container(configuration: &configuration::Configuration, container_id: &str) -> Result<crate::models::GetContainerResponse, Error<RetrieveContainerError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -559,10 +561,10 @@ pub async fn retrieve_container(configuration: &configuration::Configuration, co
     };
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)
@@ -574,7 +576,7 @@ pub async fn retrieve_container(configuration: &configuration::Configuration, co
 }
 
 /// Retreives details on a single ontology version.
-pub async fn retrieve_ontology_version(configuration: &configuration::Configuration, container_id: &str, version_id: &str) -> Result<crate::models::RetrieveOntologyVersion200Response, Error<RetrieveOntologyVersionError>> {
+pub fn retrieve_ontology_version(configuration: &configuration::Configuration, container_id: &str, version_id: &str) -> Result<crate::models::RetrieveOntologyVersion200Response, Error<RetrieveOntologyVersionError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -590,10 +592,10 @@ pub async fn retrieve_ontology_version(configuration: &configuration::Configurat
     };
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)
@@ -605,7 +607,7 @@ pub async fn retrieve_ontology_version(configuration: &configuration::Configurat
 }
 
 /// Rolls back the ontology to the selected version.
-pub async fn rollback_ontology_version(configuration: &configuration::Configuration, container_id: &str, version_id: &str) -> Result<(), Error<RollbackOntologyVersionError>> {
+pub fn rollback_ontology_version(configuration: &configuration::Configuration, container_id: &str, version_id: &str) -> Result<(), Error<RollbackOntologyVersionError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -621,10 +623,10 @@ pub async fn rollback_ontology_version(configuration: &configuration::Configurat
     };
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         Ok(())
@@ -636,7 +638,7 @@ pub async fn rollback_ontology_version(configuration: &configuration::Configurat
 }
 
 /// Sends an ontology version to be approved by a container admin
-pub async fn send_ontology_version_for_approval(configuration: &configuration::Configuration, container_id: &str, ontology_version_id: &str) -> Result<(), Error<SendOntologyVersionForApprovalError>> {
+pub fn send_ontology_version_for_approval(configuration: &configuration::Configuration, container_id: &str, ontology_version_id: &str) -> Result<(), Error<SendOntologyVersionForApprovalError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -652,10 +654,10 @@ pub async fn send_ontology_version_for_approval(configuration: &configuration::C
     };
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         Ok(())
@@ -667,7 +669,7 @@ pub async fn send_ontology_version_for_approval(configuration: &configuration::C
 }
 
 /// Unarchives a Container. This is the only way to update this value of a container via API.
-pub async fn set_container_active(configuration: &configuration::Configuration, container_id: &str) -> Result<crate::models::Generic200Response, Error<SetContainerActiveError>> {
+pub fn set_container_active(configuration: &configuration::Configuration, container_id: &str) -> Result<crate::models::Generic200Response, Error<SetContainerActiveError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -683,10 +685,10 @@ pub async fn set_container_active(configuration: &configuration::Configuration, 
     };
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)
@@ -698,7 +700,7 @@ pub async fn set_container_active(configuration: &configuration::Configuration, 
 }
 
 /// Updates the container. This will fail if a container already exists with the proposed updated name.
-pub async fn update_container(configuration: &configuration::Configuration, container_id: &str, body: crate::models::UpdateContainerRequest) -> Result<crate::models::UpdateContainerResponse, Error<UpdateContainerError>> {
+pub fn update_container(configuration: &configuration::Configuration, container_id: &str, body: crate::models::UpdateContainerRequest) -> Result<crate::models::UpdateContainerResponse, Error<UpdateContainerError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -715,10 +717,10 @@ pub async fn update_container(configuration: &configuration::Configuration, cont
     local_var_req_builder = local_var_req_builder.json(&body);
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)
@@ -730,7 +732,7 @@ pub async fn update_container(configuration: &configuration::Configuration, cont
 }
 
 /// Updates an existing container via an ontology file.
-pub async fn update_container_import(configuration: &configuration::Configuration, container_id: &str, name: &str, description: &str, data_versioning_enabled: bool, path: Option<&str>, file: Option<std::path::PathBuf>) -> Result<crate::models::ContainerImportUpdateResponse, Error<UpdateContainerImportError>> {
+pub fn update_container_import(configuration: &configuration::Configuration, container_id: &str, name: &str, description: &str, data_versioning_enabled: bool, path: Option<&str>, file: Option<std::path::PathBuf>) -> Result<crate::models::ContainerImportUpdateResponse, Error<UpdateContainerImportError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -751,14 +753,16 @@ pub async fn update_container_import(configuration: &configuration::Configuratio
     if let Some(local_var_param_value) = path {
         local_var_form = local_var_form.text("path", local_var_param_value.to_string());
     }
-    // TODO: support file upload for 'file' parameter
+    if let Some(local_var_param_value) = file {
+        local_var_form = local_var_form.file("file", local_var_param_value)?;
+    }
     local_var_req_builder = local_var_req_builder.multipart(local_var_form);
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)

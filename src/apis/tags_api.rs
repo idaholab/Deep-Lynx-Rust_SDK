@@ -150,7 +150,7 @@ pub enum UploadWebglError {
 
 
 /// Deletes a WebGL file.
-pub async fn delete_webgl_file(configuration: &configuration::Configuration, container_id: &str, file_id: &str) -> Result<(), Error<DeleteWebglFileError>> {
+pub fn delete_webgl_file(configuration: &configuration::Configuration, container_id: &str, file_id: &str) -> Result<(), Error<DeleteWebglFileError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -166,10 +166,10 @@ pub async fn delete_webgl_file(configuration: &configuration::Configuration, con
     };
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         Ok(())
@@ -181,7 +181,7 @@ pub async fn delete_webgl_file(configuration: &configuration::Configuration, con
 }
 
 /// Removes the connection between a tag and an edge
-pub async fn detach_tag_from_edge(configuration: &configuration::Configuration, container_id: &str, edge_id: &str, tag_id: &str) -> Result<(), Error<DetachTagFromEdgeError>> {
+pub fn detach_tag_from_edge(configuration: &configuration::Configuration, container_id: &str, edge_id: &str, tag_id: &str) -> Result<(), Error<DetachTagFromEdgeError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -197,10 +197,10 @@ pub async fn detach_tag_from_edge(configuration: &configuration::Configuration, 
     };
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         Ok(())
@@ -212,7 +212,7 @@ pub async fn detach_tag_from_edge(configuration: &configuration::Configuration, 
 }
 
 /// Removes the connection between a tag and a file
-pub async fn detach_tag_from_file(configuration: &configuration::Configuration, container_id: &str, file_id: &str, tag_id: &str) -> Result<(), Error<DetachTagFromFileError>> {
+pub fn detach_tag_from_file(configuration: &configuration::Configuration, container_id: &str, file_id: &str, tag_id: &str) -> Result<(), Error<DetachTagFromFileError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -228,10 +228,10 @@ pub async fn detach_tag_from_file(configuration: &configuration::Configuration, 
     };
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         Ok(())
@@ -243,7 +243,7 @@ pub async fn detach_tag_from_file(configuration: &configuration::Configuration, 
 }
 
 /// Removes the connection between a tag and a node
-pub async fn detach_tag_from_node(configuration: &configuration::Configuration, container_id: &str, node_id: &str, tag_id: &str) -> Result<(), Error<DetachTagFromNodeError>> {
+pub fn detach_tag_from_node(configuration: &configuration::Configuration, container_id: &str, node_id: &str, tag_id: &str) -> Result<(), Error<DetachTagFromNodeError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -259,10 +259,10 @@ pub async fn detach_tag_from_node(configuration: &configuration::Configuration, 
     };
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         Ok(())
@@ -274,7 +274,7 @@ pub async fn detach_tag_from_node(configuration: &configuration::Configuration, 
 }
 
 /// List all Tags for an Edge
-pub async fn get_containers_container_id_graphs_tags_edges_edge_id(configuration: &configuration::Configuration, container_id: &str, edge_id: &str) -> Result<(), Error<GetContainersContainerIdGraphsTagsEdgesEdgeIdError>> {
+pub fn get_containers_container_id_graphs_tags_edges_edge_id(configuration: &configuration::Configuration, container_id: &str, edge_id: &str) -> Result<(), Error<GetContainersContainerIdGraphsTagsEdgesEdgeIdError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -290,10 +290,10 @@ pub async fn get_containers_container_id_graphs_tags_edges_edge_id(configuration
     };
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         Ok(())
@@ -305,7 +305,7 @@ pub async fn get_containers_container_id_graphs_tags_edges_edge_id(configuration
 }
 
 /// List all Tags for a File
-pub async fn get_containers_container_id_graphs_tags_files_file_id(configuration: &configuration::Configuration, container_id: &str, file_id: &str) -> Result<(), Error<GetContainersContainerIdGraphsTagsFilesFileIdError>> {
+pub fn get_containers_container_id_graphs_tags_files_file_id(configuration: &configuration::Configuration, container_id: &str, file_id: &str) -> Result<(), Error<GetContainersContainerIdGraphsTagsFilesFileIdError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -321,10 +321,10 @@ pub async fn get_containers_container_id_graphs_tags_files_file_id(configuration
     };
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         Ok(())
@@ -336,7 +336,7 @@ pub async fn get_containers_container_id_graphs_tags_files_file_id(configuration
 }
 
 /// List all Tags on a Node
-pub async fn get_containers_container_id_graphs_tags_nodes_node_id(configuration: &configuration::Configuration, container_id: &str, node_id: &str) -> Result<(), Error<GetContainersContainerIdGraphsTagsNodesNodeIdError>> {
+pub fn get_containers_container_id_graphs_tags_nodes_node_id(configuration: &configuration::Configuration, container_id: &str, node_id: &str) -> Result<(), Error<GetContainersContainerIdGraphsTagsNodesNodeIdError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -352,10 +352,10 @@ pub async fn get_containers_container_id_graphs_tags_nodes_node_id(configuration
     };
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         Ok(())
@@ -367,7 +367,7 @@ pub async fn get_containers_container_id_graphs_tags_nodes_node_id(configuration
 }
 
 /// List all Nodes with a Tag
-pub async fn get_containers_container_id_graphs_tags_nodes_tag_id(configuration: &configuration::Configuration, container_id: &str, tag_id: &str) -> Result<(), Error<GetContainersContainerIdGraphsTagsNodesTagIdError>> {
+pub fn get_containers_container_id_graphs_tags_nodes_tag_id(configuration: &configuration::Configuration, container_id: &str, tag_id: &str) -> Result<(), Error<GetContainersContainerIdGraphsTagsNodesTagIdError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -383,10 +383,10 @@ pub async fn get_containers_container_id_graphs_tags_nodes_tag_id(configuration:
     };
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         Ok(())
@@ -398,7 +398,7 @@ pub async fn get_containers_container_id_graphs_tags_nodes_tag_id(configuration:
 }
 
 /// List all Edges with Tag
-pub async fn get_containers_container_id_graphs_tags_tag_id_edges(configuration: &configuration::Configuration, container_id: &str, tag_id: &str) -> Result<(), Error<GetContainersContainerIdGraphsTagsTagIdEdgesError>> {
+pub fn get_containers_container_id_graphs_tags_tag_id_edges(configuration: &configuration::Configuration, container_id: &str, tag_id: &str) -> Result<(), Error<GetContainersContainerIdGraphsTagsTagIdEdgesError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -414,10 +414,10 @@ pub async fn get_containers_container_id_graphs_tags_tag_id_edges(configuration:
     };
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         Ok(())
@@ -429,7 +429,7 @@ pub async fn get_containers_container_id_graphs_tags_tag_id_edges(configuration:
 }
 
 /// List all Files with Tag
-pub async fn get_containers_container_id_graphs_tags_tag_id_files(configuration: &configuration::Configuration, container_id: &str, tag_id: &str) -> Result<(), Error<GetContainersContainerIdGraphsTagsTagIdFilesError>> {
+pub fn get_containers_container_id_graphs_tags_tag_id_files(configuration: &configuration::Configuration, container_id: &str, tag_id: &str) -> Result<(), Error<GetContainersContainerIdGraphsTagsTagIdFilesError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -445,10 +445,10 @@ pub async fn get_containers_container_id_graphs_tags_tag_id_files(configuration:
     };
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         Ok(())
@@ -460,7 +460,7 @@ pub async fn get_containers_container_id_graphs_tags_tag_id_files(configuration:
 }
 
 /// List all tags for a container
-pub async fn list_tags(configuration: &configuration::Configuration, container_id: &str) -> Result<(), Error<ListTagsError>> {
+pub fn list_tags(configuration: &configuration::Configuration, container_id: &str) -> Result<(), Error<ListTagsError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -476,10 +476,10 @@ pub async fn list_tags(configuration: &configuration::Configuration, container_i
     };
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         Ok(())
@@ -491,7 +491,7 @@ pub async fn list_tags(configuration: &configuration::Configuration, container_i
 }
 
 /// Lists all WebGL files and tags for a container.
-pub async fn list_webgl(configuration: &configuration::Configuration, container_id: &str) -> Result<(), Error<ListWebglError>> {
+pub fn list_webgl(configuration: &configuration::Configuration, container_id: &str) -> Result<(), Error<ListWebglError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -507,10 +507,10 @@ pub async fn list_webgl(configuration: &configuration::Configuration, container_
     };
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         Ok(())
@@ -522,7 +522,7 @@ pub async fn list_webgl(configuration: &configuration::Configuration, container_
 }
 
 /// Create a Tag
-pub async fn post_tags(configuration: &configuration::Configuration, container_id: &str, post_tags_request: Option<crate::models::PostTagsRequest>) -> Result<(), Error<PostTagsError>> {
+pub fn post_tags(configuration: &configuration::Configuration, container_id: &str, post_tags_request: Option<crate::models::PostTagsRequest>) -> Result<(), Error<PostTagsError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -539,10 +539,10 @@ pub async fn post_tags(configuration: &configuration::Configuration, container_i
     local_var_req_builder = local_var_req_builder.json(&post_tags_request);
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         Ok(())
@@ -554,7 +554,7 @@ pub async fn post_tags(configuration: &configuration::Configuration, container_i
 }
 
 /// Attach Tag to Node
-pub async fn put_containers_container_id_graphs_tags_nodes_node_id(configuration: &configuration::Configuration, container_id: &str, node_id: &str, tag_id: &str) -> Result<(), Error<PutContainersContainerIdGraphsTagsNodesNodeIdError>> {
+pub fn put_containers_container_id_graphs_tags_nodes_node_id(configuration: &configuration::Configuration, container_id: &str, node_id: &str, tag_id: &str) -> Result<(), Error<PutContainersContainerIdGraphsTagsNodesNodeIdError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -570,10 +570,10 @@ pub async fn put_containers_container_id_graphs_tags_nodes_node_id(configuration
     };
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         Ok(())
@@ -585,7 +585,7 @@ pub async fn put_containers_container_id_graphs_tags_nodes_node_id(configuration
 }
 
 /// Update a tag
-pub async fn put_containers_container_id_graphs_tags_tag_id(configuration: &configuration::Configuration, container_id: &str, tag_id: &str, post_tags_request: Option<crate::models::PostTagsRequest>) -> Result<(), Error<PutContainersContainerIdGraphsTagsTagIdError>> {
+pub fn put_containers_container_id_graphs_tags_tag_id(configuration: &configuration::Configuration, container_id: &str, tag_id: &str, post_tags_request: Option<crate::models::PostTagsRequest>) -> Result<(), Error<PutContainersContainerIdGraphsTagsTagIdError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -602,10 +602,10 @@ pub async fn put_containers_container_id_graphs_tags_tag_id(configuration: &conf
     local_var_req_builder = local_var_req_builder.json(&post_tags_request);
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         Ok(())
@@ -617,7 +617,7 @@ pub async fn put_containers_container_id_graphs_tags_tag_id(configuration: &conf
 }
 
 /// Tag an Edge
-pub async fn put_containers_container_id_graphs_tags_tag_id_edges_edge_id(configuration: &configuration::Configuration, container_id: &str, edge_id: &str, tag_id: &str) -> Result<(), Error<PutContainersContainerIdGraphsTagsTagIdEdgesEdgeIdError>> {
+pub fn put_containers_container_id_graphs_tags_tag_id_edges_edge_id(configuration: &configuration::Configuration, container_id: &str, edge_id: &str, tag_id: &str) -> Result<(), Error<PutContainersContainerIdGraphsTagsTagIdEdgesEdgeIdError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -633,10 +633,10 @@ pub async fn put_containers_container_id_graphs_tags_tag_id_edges_edge_id(config
     };
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         Ok(())
@@ -648,7 +648,7 @@ pub async fn put_containers_container_id_graphs_tags_tag_id_edges_edge_id(config
 }
 
 /// Tag a File
-pub async fn put_containers_container_id_graphs_tags_tag_id_files_file_id(configuration: &configuration::Configuration, container_id: &str, file_id: &str, tag_id: &str) -> Result<(), Error<PutContainersContainerIdGraphsTagsTagIdFilesFileIdError>> {
+pub fn put_containers_container_id_graphs_tags_tag_id_files_file_id(configuration: &configuration::Configuration, container_id: &str, file_id: &str, tag_id: &str) -> Result<(), Error<PutContainersContainerIdGraphsTagsTagIdFilesFileIdError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -664,10 +664,10 @@ pub async fn put_containers_container_id_graphs_tags_tag_id_files_file_id(config
     };
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         Ok(())
@@ -679,7 +679,7 @@ pub async fn put_containers_container_id_graphs_tags_tag_id_files_file_id(config
 }
 
 /// Updates WebGL files.
-pub async fn update_webgl_files(configuration: &configuration::Configuration, container_id: &str, file_id: &str) -> Result<(), Error<UpdateWebglFilesError>> {
+pub fn update_webgl_files(configuration: &configuration::Configuration, container_id: &str, file_id: &str) -> Result<(), Error<UpdateWebglFilesError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -695,10 +695,10 @@ pub async fn update_webgl_files(configuration: &configuration::Configuration, co
     };
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         Ok(())
@@ -710,7 +710,7 @@ pub async fn update_webgl_files(configuration: &configuration::Configuration, co
 }
 
 /// Upload a WebGL build. The tag will be created if it doesn't exist, and the file will be uploaded. The tag is then associated with the file. The tag will automatically have {'webgl': true} added to its metadata field
-pub async fn upload_webgl(configuration: &configuration::Configuration, container_id: &str, tag: Option<&str>, file: Option<serde_json::Value>) -> Result<(), Error<UploadWebglError>> {
+pub fn upload_webgl(configuration: &configuration::Configuration, container_id: &str, tag: Option<&str>, file: Option<serde_json::Value>) -> Result<(), Error<UploadWebglError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -734,10 +734,10 @@ pub async fn upload_webgl(configuration: &configuration::Configuration, containe
     local_var_req_builder = local_var_req_builder.multipart(local_var_form);
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         Ok(())

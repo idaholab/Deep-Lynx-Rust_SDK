@@ -143,7 +143,7 @@ pub enum TimeseriesNodeQueryError {
 
 
 /// Archives an edge
-pub async fn archive_edge(configuration: &configuration::Configuration, container_id: &str, edge_id: &str) -> Result<crate::models::Generic200Response, Error<ArchiveEdgeError>> {
+pub fn archive_edge(configuration: &configuration::Configuration, container_id: &str, edge_id: &str) -> Result<crate::models::Generic200Response, Error<ArchiveEdgeError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -159,10 +159,10 @@ pub async fn archive_edge(configuration: &configuration::Configuration, containe
     };
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)
@@ -174,7 +174,7 @@ pub async fn archive_edge(configuration: &configuration::Configuration, containe
 }
 
 /// Archives a node
-pub async fn archive_node(configuration: &configuration::Configuration, container_id: &str, node_id: &str) -> Result<crate::models::Generic200Response, Error<ArchiveNodeError>> {
+pub fn archive_node(configuration: &configuration::Configuration, container_id: &str, node_id: &str) -> Result<crate::models::Generic200Response, Error<ArchiveNodeError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -190,10 +190,10 @@ pub async fn archive_node(configuration: &configuration::Configuration, containe
     };
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)
@@ -205,7 +205,7 @@ pub async fn archive_node(configuration: &configuration::Configuration, containe
 }
 
 /// Attach a file to an edge.
-pub async fn attach_edge_file(configuration: &configuration::Configuration, container_id: &str, file_id: &str, edge_id: &str) -> Result<crate::models::Generic200Response, Error<AttachEdgeFileError>> {
+pub fn attach_edge_file(configuration: &configuration::Configuration, container_id: &str, file_id: &str, edge_id: &str) -> Result<crate::models::Generic200Response, Error<AttachEdgeFileError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -221,10 +221,10 @@ pub async fn attach_edge_file(configuration: &configuration::Configuration, cont
     };
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)
@@ -236,7 +236,7 @@ pub async fn attach_edge_file(configuration: &configuration::Configuration, cont
 }
 
 /// Attach a file to a node.
-pub async fn attach_node_file(configuration: &configuration::Configuration, container_id: &str, node_id: &str, file_id: &str) -> Result<crate::models::Generic200Response, Error<AttachNodeFileError>> {
+pub fn attach_node_file(configuration: &configuration::Configuration, container_id: &str, node_id: &str, file_id: &str) -> Result<crate::models::Generic200Response, Error<AttachNodeFileError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -252,10 +252,10 @@ pub async fn attach_node_file(configuration: &configuration::Configuration, cont
     };
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)
@@ -267,7 +267,7 @@ pub async fn attach_node_file(configuration: &configuration::Configuration, cont
 }
 
 /// This endpoint will attempt to create a connection between two nodes. You can either pass in the node's Deep Lynx IDs, or the node's original id, metatype id, and data source id to create these edges.
-pub async fn create_or_update_edges(configuration: &configuration::Configuration, container_id: &str, create_or_update_edges_request: Option<crate::models::CreateOrUpdateEdgesRequest>) -> Result<Vec<crate::models::Edge>, Error<CreateOrUpdateEdgesError>> {
+pub fn create_or_update_edges(configuration: &configuration::Configuration, container_id: &str, create_or_update_edges_request: Option<crate::models::CreateOrUpdateEdgesRequest>) -> Result<Vec<crate::models::Edge>, Error<CreateOrUpdateEdgesError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -284,10 +284,10 @@ pub async fn create_or_update_edges(configuration: &configuration::Configuration
     local_var_req_builder = local_var_req_builder.json(&create_or_update_edges_request);
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)
@@ -299,7 +299,7 @@ pub async fn create_or_update_edges(configuration: &configuration::Configuration
 }
 
 /// This endpoint will either create new nodes or update nodes if one with the same original_id is passed.
-pub async fn create_or_update_nodes(configuration: &configuration::Configuration, container_id: &str, body: crate::models::CreateOrUpdateNodesRequest) -> Result<Vec<crate::models::Node>, Error<CreateOrUpdateNodesError>> {
+pub fn create_or_update_nodes(configuration: &configuration::Configuration, container_id: &str, body: crate::models::CreateOrUpdateNodesRequest) -> Result<Vec<crate::models::Node>, Error<CreateOrUpdateNodesError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -316,10 +316,10 @@ pub async fn create_or_update_nodes(configuration: &configuration::Configuration
     local_var_req_builder = local_var_req_builder.json(&body);
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)
@@ -331,7 +331,7 @@ pub async fn create_or_update_nodes(configuration: &configuration::Configuration
 }
 
 /// Detach file from node
-pub async fn delete_node_file(configuration: &configuration::Configuration, container_id: &str, node_id: &str, file_id: &str) -> Result<crate::models::Generic200Response, Error<DeleteNodeFileError>> {
+pub fn delete_node_file(configuration: &configuration::Configuration, container_id: &str, node_id: &str, file_id: &str) -> Result<crate::models::Generic200Response, Error<DeleteNodeFileError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -347,10 +347,10 @@ pub async fn delete_node_file(configuration: &configuration::Configuration, cont
     };
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)
@@ -362,7 +362,7 @@ pub async fn delete_node_file(configuration: &configuration::Configuration, cont
 }
 
 /// Detach file from an edge.
-pub async fn detach_node_file(configuration: &configuration::Configuration, container_id: &str, file_id: &str, edge_id: &str) -> Result<crate::models::Generic200Response, Error<DetachNodeFileError>> {
+pub fn detach_node_file(configuration: &configuration::Configuration, container_id: &str, file_id: &str, edge_id: &str) -> Result<crate::models::Generic200Response, Error<DetachNodeFileError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -378,10 +378,10 @@ pub async fn detach_node_file(configuration: &configuration::Configuration, cont
     };
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)
@@ -393,7 +393,7 @@ pub async fn detach_node_file(configuration: &configuration::Configuration, cont
 }
 
 /// Lists all attached files for edge.
-pub async fn list_edge_files(configuration: &configuration::Configuration, container_id: &str, edge_id: &str) -> Result<crate::models::ListEdgeFiles, Error<ListEdgeFilesError>> {
+pub fn list_edge_files(configuration: &configuration::Configuration, container_id: &str, edge_id: &str) -> Result<crate::models::ListEdgeFiles, Error<ListEdgeFilesError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -409,10 +409,10 @@ pub async fn list_edge_files(configuration: &configuration::Configuration, conta
     };
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)
@@ -424,7 +424,7 @@ pub async fn list_edge_files(configuration: &configuration::Configuration, conta
 }
 
 /// List Edges from storage
-pub async fn list_edges(configuration: &configuration::Configuration, container_id: &str, limit: Option<i32>, offset: Option<i32>, origin_id: Option<&str>, destination_id: Option<&str>, relationship_pair_id: Option<&str>, relationship_pair_name: Option<&str>) -> Result<crate::models::ListEdgesResponse, Error<ListEdgesError>> {
+pub fn list_edges(configuration: &configuration::Configuration, container_id: &str, limit: Option<i32>, offset: Option<i32>, origin_id: Option<&str>, destination_id: Option<&str>, relationship_pair_id: Option<&str>, relationship_pair_name: Option<&str>) -> Result<crate::models::ListEdgesResponse, Error<ListEdgesError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -458,10 +458,10 @@ pub async fn list_edges(configuration: &configuration::Configuration, container_
     };
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)
@@ -473,7 +473,7 @@ pub async fn list_edges(configuration: &configuration::Configuration, container_
 }
 
 /// Lists all attached files for node.
-pub async fn list_node_files(configuration: &configuration::Configuration, container_id: &str, node_id: &str) -> Result<crate::models::ListNodeFiles, Error<ListNodeFilesError>> {
+pub fn list_node_files(configuration: &configuration::Configuration, container_id: &str, node_id: &str) -> Result<crate::models::ListNodeFiles, Error<ListNodeFilesError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -489,10 +489,10 @@ pub async fn list_node_files(configuration: &configuration::Configuration, conta
     };
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)
@@ -504,7 +504,7 @@ pub async fn list_node_files(configuration: &configuration::Configuration, conta
 }
 
 /// List nodes
-pub async fn list_nodes(configuration: &configuration::Configuration, container_id: &str, limit: Option<i32>, offset: Option<i32>, transformation_id: Option<&str>, metatype_id: Option<&str>, data_source_id: Option<&str>) -> Result<crate::models::ListNodesResponse, Error<ListNodesError>> {
+pub fn list_nodes(configuration: &configuration::Configuration, container_id: &str, limit: Option<i32>, offset: Option<i32>, transformation_id: Option<&str>, metatype_id: Option<&str>, data_source_id: Option<&str>) -> Result<crate::models::ListNodesResponse, Error<ListNodesError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -535,10 +535,10 @@ pub async fn list_nodes(configuration: &configuration::Configuration, container_
     };
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)
@@ -550,7 +550,7 @@ pub async fn list_nodes(configuration: &configuration::Configuration, container_
 }
 
 /// List Nodes, filter by MetatypeID
-pub async fn list_nodes_by_metatype_id(configuration: &configuration::Configuration, container_id: &str, metatype_id: &str, limit: Option<i32>, offset: Option<i32>) -> Result<crate::models::ListNodesByMetatypeResponse, Error<ListNodesByMetatypeIdError>> {
+pub fn list_nodes_by_metatype_id(configuration: &configuration::Configuration, container_id: &str, metatype_id: &str, limit: Option<i32>, offset: Option<i32>) -> Result<crate::models::ListNodesByMetatypeResponse, Error<ListNodesByMetatypeIdError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -572,10 +572,10 @@ pub async fn list_nodes_by_metatype_id(configuration: &configuration::Configurat
     };
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)
@@ -587,7 +587,7 @@ pub async fn list_nodes_by_metatype_id(configuration: &configuration::Configurat
 }
 
 /// Retrieve a single edge
-pub async fn retrieve_edge(configuration: &configuration::Configuration, container_id: &str, edge_id: &str) -> Result<crate::models::GetEdgeResponse, Error<RetrieveEdgeError>> {
+pub fn retrieve_edge(configuration: &configuration::Configuration, container_id: &str, edge_id: &str) -> Result<crate::models::GetEdgeResponse, Error<RetrieveEdgeError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -603,10 +603,10 @@ pub async fn retrieve_edge(configuration: &configuration::Configuration, contain
     };
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)
@@ -618,7 +618,7 @@ pub async fn retrieve_edge(configuration: &configuration::Configuration, contain
 }
 
 /// Retrieve a single node from storage.
-pub async fn retrieve_node(configuration: &configuration::Configuration, container_id: &str, node_id: &str) -> Result<crate::models::GetNodeResponse, Error<RetrieveNodeError>> {
+pub fn retrieve_node(configuration: &configuration::Configuration, container_id: &str, node_id: &str) -> Result<crate::models::GetNodeResponse, Error<RetrieveNodeError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -634,10 +634,10 @@ pub async fn retrieve_node(configuration: &configuration::Configuration, contain
     };
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)
@@ -649,7 +649,7 @@ pub async fn retrieve_node(configuration: &configuration::Configuration, contain
 }
 
 /// Retrieve n layers of node-edge relationships given a depth n and an origin node id.
-pub async fn retrieve_nth_nodes(configuration: &configuration::Configuration, container_id: &str, node_id: &str, depth: Option<&str>) -> Result<crate::models::RetrieveNthNodes200Response, Error<RetrieveNthNodesError>> {
+pub fn retrieve_nth_nodes(configuration: &configuration::Configuration, container_id: &str, node_id: &str, depth: Option<&str>) -> Result<crate::models::RetrieveNthNodes200Response, Error<RetrieveNthNodesError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -668,10 +668,10 @@ pub async fn retrieve_nth_nodes(configuration: &configuration::Configuration, co
     };
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)
@@ -683,7 +683,7 @@ pub async fn retrieve_nth_nodes(configuration: &configuration::Configuration, co
 }
 
 /// This is an endpoint that accepts a GraphQL query and returns the results of that query. Primarily used for working with time series data without requiring attachment to a node.
-pub async fn timeseries_data_source_query(configuration: &configuration::Configuration, container_id: &str, data_source_id: &str) -> Result<(), Error<TimeseriesDataSourceQueryError>> {
+pub fn timeseries_data_source_query(configuration: &configuration::Configuration, container_id: &str, data_source_id: &str) -> Result<(), Error<TimeseriesDataSourceQueryError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -699,10 +699,10 @@ pub async fn timeseries_data_source_query(configuration: &configuration::Configu
     };
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         Ok(())
@@ -714,7 +714,7 @@ pub async fn timeseries_data_source_query(configuration: &configuration::Configu
 }
 
 /// This is an endpoint that accepts a GraphQL query and returns the results of that query. Primarily used for working with time series data on nodes.
-pub async fn timeseries_node_query(configuration: &configuration::Configuration, container_id: &str, node_id: &str) -> Result<(), Error<TimeseriesNodeQueryError>> {
+pub fn timeseries_node_query(configuration: &configuration::Configuration, container_id: &str, node_id: &str) -> Result<(), Error<TimeseriesNodeQueryError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -730,10 +730,10 @@ pub async fn timeseries_node_query(configuration: &configuration::Configuration,
     };
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         Ok(())

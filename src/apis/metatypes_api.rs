@@ -60,7 +60,7 @@ pub enum ValidateMetatypePropertiesError {
 
 
 /// Archives the metatype. This is preferred over deletion as deletion has a cascading effect on the deleted metatype's keys, relationships, and relationship keys. When in doubt, archive over delete. We'd rather have tombstones than cremating the metatype.
-pub async fn archive_metatype(configuration: &configuration::Configuration, container_id: &str, metatype_id: &str) -> Result<crate::models::Generic200Response, Error<ArchiveMetatypeError>> {
+pub fn archive_metatype(configuration: &configuration::Configuration, container_id: &str, metatype_id: &str) -> Result<crate::models::Generic200Response, Error<ArchiveMetatypeError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -76,10 +76,10 @@ pub async fn archive_metatype(configuration: &configuration::Configuration, cont
     };
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)
@@ -91,7 +91,7 @@ pub async fn archive_metatype(configuration: &configuration::Configuration, cont
 }
 
 /// Create a new metatype. Pass in an array for bulk creation.
-pub async fn create_metatype(configuration: &configuration::Configuration, container_id: &str, body: crate::models::CreateMetatypeRequest) -> Result<crate::models::CreateMetatypesResponse, Error<CreateMetatypeError>> {
+pub fn create_metatype(configuration: &configuration::Configuration, container_id: &str, body: crate::models::CreateMetatypeRequest) -> Result<crate::models::CreateMetatypesResponse, Error<CreateMetatypeError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -108,10 +108,10 @@ pub async fn create_metatype(configuration: &configuration::Configuration, conta
     local_var_req_builder = local_var_req_builder.json(&body);
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)
@@ -123,7 +123,7 @@ pub async fn create_metatype(configuration: &configuration::Configuration, conta
 }
 
 /// List all metatypes that the container has access to. 
-pub async fn list_metatypes(configuration: &configuration::Configuration, container_id: &str, limit: Option<i32>, offset: Option<i32>, name: Option<&str>, description: Option<&str>, count: Option<&str>, load_keys: Option<&str>, sort_by: Option<&str>, sort_desc: Option<&str>) -> Result<crate::models::ListMetatypesResponse, Error<ListMetatypesError>> {
+pub fn list_metatypes(configuration: &configuration::Configuration, container_id: &str, limit: Option<i32>, offset: Option<i32>, name: Option<&str>, description: Option<&str>, count: Option<&str>, load_keys: Option<&str>, sort_by: Option<&str>, sort_desc: Option<&str>) -> Result<crate::models::ListMetatypesResponse, Error<ListMetatypesError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -163,10 +163,10 @@ pub async fn list_metatypes(configuration: &configuration::Configuration, contai
     };
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)
@@ -178,7 +178,7 @@ pub async fn list_metatypes(configuration: &configuration::Configuration, contai
 }
 
 /// Retrieves a single metatype.
-pub async fn retrieve_metaype(configuration: &configuration::Configuration, container_id: &str, metatype_id: &str) -> Result<crate::models::GetMetatypeResponse, Error<RetrieveMetaypeError>> {
+pub fn retrieve_metaype(configuration: &configuration::Configuration, container_id: &str, metatype_id: &str) -> Result<crate::models::GetMetatypeResponse, Error<RetrieveMetaypeError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -194,10 +194,10 @@ pub async fn retrieve_metaype(configuration: &configuration::Configuration, cont
     };
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)
@@ -209,7 +209,7 @@ pub async fn retrieve_metaype(configuration: &configuration::Configuration, cont
 }
 
 /// Update a single Metatype in storage. Will fail if the updated name has already been taken.
-pub async fn update_metatype(configuration: &configuration::Configuration, container_id: &str, metatype_id: &str, body: crate::models::UpdateMetatypeRequest) -> Result<crate::models::UpdateMetatypeResponse, Error<UpdateMetatypeError>> {
+pub fn update_metatype(configuration: &configuration::Configuration, container_id: &str, metatype_id: &str, body: crate::models::UpdateMetatypeRequest) -> Result<crate::models::UpdateMetatypeResponse, Error<UpdateMetatypeError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -226,10 +226,10 @@ pub async fn update_metatype(configuration: &configuration::Configuration, conta
     local_var_req_builder = local_var_req_builder.json(&body);
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)
@@ -241,7 +241,7 @@ pub async fn update_metatype(configuration: &configuration::Configuration, conta
 }
 
 /// Returns any errors associated with the intended properties or keys for a metatype or else the data itself if no errors are present.
-pub async fn validate_metatype_properties(configuration: &configuration::Configuration, container_id: &str, metatype_id: &str, validate_metatype_properties_request: Option<crate::models::ValidateMetatypePropertiesRequest>) -> Result<crate::models::ValidateMetatypePropertiesResponse, Error<ValidateMetatypePropertiesError>> {
+pub fn validate_metatype_properties(configuration: &configuration::Configuration, container_id: &str, metatype_id: &str, validate_metatype_properties_request: Option<crate::models::ValidateMetatypePropertiesRequest>) -> Result<crate::models::ValidateMetatypePropertiesResponse, Error<ValidateMetatypePropertiesError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -258,10 +258,10 @@ pub async fn validate_metatype_properties(configuration: &configuration::Configu
     local_var_req_builder = local_var_req_builder.json(&validate_metatype_properties_request);
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)

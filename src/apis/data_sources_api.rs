@@ -101,7 +101,7 @@ pub enum UploadFileError {
 
 
 /// Archive a data source, with options to permanently remove it (and associated data).
-pub async fn archive_data_source(configuration: &configuration::Configuration, container_id: &str, data_source_id: &str, archive: Option<&str>, force_delete: Option<&str>, remove_data: Option<&str>) -> Result<crate::models::Generic200Response, Error<ArchiveDataSourceError>> {
+pub fn archive_data_source(configuration: &configuration::Configuration, container_id: &str, data_source_id: &str, archive: Option<&str>, force_delete: Option<&str>, remove_data: Option<&str>) -> Result<crate::models::Generic200Response, Error<ArchiveDataSourceError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -126,10 +126,10 @@ pub async fn archive_data_source(configuration: &configuration::Configuration, c
     };
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)
@@ -141,7 +141,7 @@ pub async fn archive_data_source(configuration: &configuration::Configuration, c
 }
 
 /// Create new datasource. Supported data source types are `http`, `standard` (or `manual`), `jazz`, `p6`, `aveva`, and `timeseries`.
-pub async fn create_data_source(configuration: &configuration::Configuration, container_id: &str, body: crate::models::CreateDataSourceRequest) -> Result<crate::models::CreateDataSourcesResponse, Error<CreateDataSourceError>> {
+pub fn create_data_source(configuration: &configuration::Configuration, container_id: &str, body: crate::models::CreateDataSourceRequest) -> Result<crate::models::CreateDataSourcesResponse, Error<CreateDataSourceError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -158,10 +158,10 @@ pub async fn create_data_source(configuration: &configuration::Configuration, co
     local_var_req_builder = local_var_req_builder.json(&body);
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)
@@ -173,7 +173,7 @@ pub async fn create_data_source(configuration: &configuration::Configuration, co
 }
 
 /// Create a manual import.
-pub async fn create_manual_import(configuration: &configuration::Configuration, container_id: &str, data_source_id: &str, body: serde_json::Value) -> Result<crate::models::CreateManualImportResponse, Error<CreateManualImportError>> {
+pub fn create_manual_import(configuration: &configuration::Configuration, container_id: &str, data_source_id: &str, body: serde_json::Value) -> Result<crate::models::CreateManualImportResponse, Error<CreateManualImportError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -190,10 +190,10 @@ pub async fn create_manual_import(configuration: &configuration::Configuration, 
     local_var_req_builder = local_var_req_builder.json(&body);
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)
@@ -205,7 +205,7 @@ pub async fn create_manual_import(configuration: &configuration::Configuration, 
 }
 
 /// Downloads a previously uploaded file.
-pub async fn download_file(configuration: &configuration::Configuration, container_id: &str, file_id: &str) -> Result<(), Error<DownloadFileError>> {
+pub fn download_file(configuration: &configuration::Configuration, container_id: &str, file_id: &str) -> Result<(), Error<DownloadFileError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -221,10 +221,10 @@ pub async fn download_file(configuration: &configuration::Configuration, contain
     };
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         Ok(())
@@ -236,7 +236,7 @@ pub async fn download_file(configuration: &configuration::Configuration, contain
 }
 
 /// List the datasources for the container.
-pub async fn list_data_sources(configuration: &configuration::Configuration, container_id: &str, decrypted: Option<bool>) -> Result<crate::models::ListDataSourcesResponse, Error<ListDataSourcesError>> {
+pub fn list_data_sources(configuration: &configuration::Configuration, container_id: &str, decrypted: Option<bool>) -> Result<crate::models::ListDataSourcesResponse, Error<ListDataSourcesError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -255,10 +255,10 @@ pub async fn list_data_sources(configuration: &configuration::Configuration, con
     };
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)
@@ -270,7 +270,7 @@ pub async fn list_data_sources(configuration: &configuration::Configuration, con
 }
 
 /// List the imports for the datasource.
-pub async fn list_imports_for_data_source(configuration: &configuration::Configuration, container_id: &str, data_source_id: &str) -> Result<crate::models::ListDataSourceImportsResponse, Error<ListImportsForDataSourceError>> {
+pub fn list_imports_for_data_source(configuration: &configuration::Configuration, container_id: &str, data_source_id: &str) -> Result<crate::models::ListDataSourceImportsResponse, Error<ListImportsForDataSourceError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -286,10 +286,10 @@ pub async fn list_imports_for_data_source(configuration: &configuration::Configu
     };
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)
@@ -301,7 +301,7 @@ pub async fn list_imports_for_data_source(configuration: &configuration::Configu
 }
 
 /// Retrieve a single data source by ID.
-pub async fn retrieve_data_source(configuration: &configuration::Configuration, container_id: &str, data_source_id: &str) -> Result<crate::models::GetDataSourceResponse, Error<RetrieveDataSourceError>> {
+pub fn retrieve_data_source(configuration: &configuration::Configuration, container_id: &str, data_source_id: &str) -> Result<crate::models::GetDataSourceResponse, Error<RetrieveDataSourceError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -317,10 +317,10 @@ pub async fn retrieve_data_source(configuration: &configuration::Configuration, 
     };
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)
@@ -332,7 +332,7 @@ pub async fn retrieve_data_source(configuration: &configuration::Configuration, 
 }
 
 /// Get information about a file by ID.
-pub async fn retrieve_file(configuration: &configuration::Configuration, container_id: &str, file_id: &str) -> Result<crate::models::GetFileInfoResponse, Error<RetrieveFileError>> {
+pub fn retrieve_file(configuration: &configuration::Configuration, container_id: &str, file_id: &str) -> Result<crate::models::GetFileInfoResponse, Error<RetrieveFileError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -348,10 +348,10 @@ pub async fn retrieve_file(configuration: &configuration::Configuration, contain
     };
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)
@@ -363,7 +363,7 @@ pub async fn retrieve_file(configuration: &configuration::Configuration, contain
 }
 
 /// Sets a data source active.
-pub async fn set_data_source_active(configuration: &configuration::Configuration, container_id: &str, data_source_id: &str) -> Result<crate::models::Generic200Response, Error<SetDataSourceActiveError>> {
+pub fn set_data_source_active(configuration: &configuration::Configuration, container_id: &str, data_source_id: &str) -> Result<crate::models::Generic200Response, Error<SetDataSourceActiveError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -379,10 +379,10 @@ pub async fn set_data_source_active(configuration: &configuration::Configuration
     };
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)
@@ -394,7 +394,7 @@ pub async fn set_data_source_active(configuration: &configuration::Configuration
 }
 
 /// Updates a data source's configuration in storage. Note that this request body's structure must match that of the data source's adapter type.
-pub async fn set_data_source_configuration(configuration: &configuration::Configuration, container_id: &str, data_source_id: &str, body: crate::models::CreateDataSourceConfig) -> Result<crate::models::UpdateDataSourceResponse, Error<SetDataSourceConfigurationError>> {
+pub fn set_data_source_configuration(configuration: &configuration::Configuration, container_id: &str, data_source_id: &str, body: crate::models::CreateDataSourceConfig) -> Result<crate::models::UpdateDataSourceResponse, Error<SetDataSourceConfigurationError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -411,10 +411,10 @@ pub async fn set_data_source_configuration(configuration: &configuration::Config
     local_var_req_builder = local_var_req_builder.json(&body);
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)
@@ -426,7 +426,7 @@ pub async fn set_data_source_configuration(configuration: &configuration::Config
 }
 
 /// Sets a data source inactive.
-pub async fn set_data_source_inactive(configuration: &configuration::Configuration, container_id: &str, data_source_id: &str) -> Result<crate::models::Generic200Response, Error<SetDataSourceInactiveError>> {
+pub fn set_data_source_inactive(configuration: &configuration::Configuration, container_id: &str, data_source_id: &str) -> Result<crate::models::Generic200Response, Error<SetDataSourceInactiveError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -442,10 +442,10 @@ pub async fn set_data_source_inactive(configuration: &configuration::Configurati
     };
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)
@@ -457,7 +457,7 @@ pub async fn set_data_source_inactive(configuration: &configuration::Configurati
 }
 
 /// Uploads a file and it's metadata to Deep Lynx. All additional fields on the multipart form will be processed and added as metadata to the file upload itself.  This should be a collection of files and normal fields. If you include a file field and call that \"metadata\" - you can include a normal metadata upload as either a json, csv, or xml file. This data will be processed like a normal import and the files attached to the processed data. Once Deep Lynx generates nodes and edges from that data, any files attached will automatically be attached to the resulting nodes/edges as well. NOTE: The metadata file you upload, if json, must be wrapped in an array. If you do not pass in an array of objects, even if it's a single object, then Deep Lynx will attempt to split up your metadata into its parts instead of treating it like a whole object.
-pub async fn upload_file(configuration: &configuration::Configuration, container_id: &str, data_source_id: &str, import_id: Option<&str>, file: Option<std::path::PathBuf>, metadata: Option<std::path::PathBuf>) -> Result<crate::models::UploadFileResponse, Error<UploadFileError>> {
+pub fn upload_file(configuration: &configuration::Configuration, container_id: &str, data_source_id: &str, import_id: Option<&str>, file: Option<std::path::PathBuf>, metadata: Option<std::path::PathBuf>) -> Result<crate::models::UploadFileResponse, Error<UploadFileError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -475,15 +475,19 @@ pub async fn upload_file(configuration: &configuration::Configuration, container
         local_var_req_builder = local_var_req_builder.bearer_auth(local_var_token.to_owned());
     };
     let mut local_var_form = reqwest::multipart::Form::new();
-    // TODO: support file upload for 'file' parameter
-    // TODO: support file upload for 'metadata' parameter
+    if let Some(local_var_param_value) = file {
+        local_var_form = local_var_form.file("file", local_var_param_value)?;
+    }
+    if let Some(local_var_param_value) = metadata {
+        local_var_form = local_var_form.file("metadata", local_var_param_value)?;
+    }
     local_var_req_builder = local_var_req_builder.multipart(local_var_form);
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)

@@ -80,7 +80,7 @@ pub enum UpdateEventActionStatusError {
 
 
 /// Create new event
-pub async fn create_event(configuration: &configuration::Configuration, body: crate::models::CreateEventRequest) -> Result<crate::models::CreateEventResponse, Error<CreateEventError>> {
+pub fn create_event(configuration: &configuration::Configuration, body: crate::models::CreateEventRequest) -> Result<crate::models::CreateEventResponse, Error<CreateEventError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -97,10 +97,10 @@ pub async fn create_event(configuration: &configuration::Configuration, body: cr
     local_var_req_builder = local_var_req_builder.json(&body);
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)
@@ -112,7 +112,7 @@ pub async fn create_event(configuration: &configuration::Configuration, body: cr
 }
 
 /// Create an event action
-pub async fn create_event_action(configuration: &configuration::Configuration, create_event_action_request: crate::models::CreateEventActionRequest) -> Result<crate::models::CreateEventActionResponse, Error<CreateEventActionError>> {
+pub fn create_event_action(configuration: &configuration::Configuration, create_event_action_request: crate::models::CreateEventActionRequest) -> Result<crate::models::CreateEventActionResponse, Error<CreateEventActionError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -129,10 +129,10 @@ pub async fn create_event_action(configuration: &configuration::Configuration, c
     local_var_req_builder = local_var_req_builder.json(&create_event_action_request);
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)
@@ -144,7 +144,7 @@ pub async fn create_event_action(configuration: &configuration::Configuration, c
 }
 
 /// Delete an event action
-pub async fn delete_event_action(configuration: &configuration::Configuration, action_id: &str) -> Result<crate::models::Generic200Response, Error<DeleteEventActionError>> {
+pub fn delete_event_action(configuration: &configuration::Configuration, action_id: &str) -> Result<crate::models::Generic200Response, Error<DeleteEventActionError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -160,10 +160,10 @@ pub async fn delete_event_action(configuration: &configuration::Configuration, a
     };
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)
@@ -175,7 +175,7 @@ pub async fn delete_event_action(configuration: &configuration::Configuration, a
 }
 
 /// List all event action statuses
-pub async fn list_event_action_statuses(configuration: &configuration::Configuration, event_id: Option<&str>) -> Result<crate::models::ListEventActionStatusResponse, Error<ListEventActionStatusesError>> {
+pub fn list_event_action_statuses(configuration: &configuration::Configuration, event_id: Option<&str>) -> Result<crate::models::ListEventActionStatusResponse, Error<ListEventActionStatusesError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -194,10 +194,10 @@ pub async fn list_event_action_statuses(configuration: &configuration::Configura
     };
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)
@@ -209,7 +209,7 @@ pub async fn list_event_action_statuses(configuration: &configuration::Configura
 }
 
 /// Lists all event actions
-pub async fn list_event_actions(configuration: &configuration::Configuration, ) -> Result<crate::models::ListEventActionResponse, Error<ListEventActionsError>> {
+pub fn list_event_actions(configuration: &configuration::Configuration, ) -> Result<crate::models::ListEventActionResponse, Error<ListEventActionsError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -225,10 +225,10 @@ pub async fn list_event_actions(configuration: &configuration::Configuration, ) 
     };
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)
@@ -240,7 +240,7 @@ pub async fn list_event_actions(configuration: &configuration::Configuration, ) 
 }
 
 /// Retrieve an event action
-pub async fn retrieve_event_action(configuration: &configuration::Configuration, action_id: &str) -> Result<crate::models::GetEventActionResponse, Error<RetrieveEventActionError>> {
+pub fn retrieve_event_action(configuration: &configuration::Configuration, action_id: &str) -> Result<crate::models::GetEventActionResponse, Error<RetrieveEventActionError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -256,10 +256,10 @@ pub async fn retrieve_event_action(configuration: &configuration::Configuration,
     };
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)
@@ -271,7 +271,7 @@ pub async fn retrieve_event_action(configuration: &configuration::Configuration,
 }
 
 /// Retrieve an event action status
-pub async fn retrieve_event_action_status(configuration: &configuration::Configuration, status_id: &str) -> Result<crate::models::GetEventActionStatusResponse, Error<RetrieveEventActionStatusError>> {
+pub fn retrieve_event_action_status(configuration: &configuration::Configuration, status_id: &str) -> Result<crate::models::GetEventActionStatusResponse, Error<RetrieveEventActionStatusError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -287,10 +287,10 @@ pub async fn retrieve_event_action_status(configuration: &configuration::Configu
     };
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)
@@ -302,7 +302,7 @@ pub async fn retrieve_event_action_status(configuration: &configuration::Configu
 }
 
 /// Update an event action
-pub async fn update_event_action(configuration: &configuration::Configuration, action_id: &str, active: Option<bool>, create_event_action_request: Option<crate::models::CreateEventActionRequest>) -> Result<crate::models::UpdateEventActionResponse, Error<UpdateEventActionError>> {
+pub fn update_event_action(configuration: &configuration::Configuration, action_id: &str, active: Option<bool>, create_event_action_request: Option<crate::models::CreateEventActionRequest>) -> Result<crate::models::UpdateEventActionResponse, Error<UpdateEventActionError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -322,10 +322,10 @@ pub async fn update_event_action(configuration: &configuration::Configuration, a
     local_var_req_builder = local_var_req_builder.json(&create_event_action_request);
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)
@@ -337,7 +337,7 @@ pub async fn update_event_action(configuration: &configuration::Configuration, a
 }
 
 /// Update an event action status
-pub async fn update_event_action_status(configuration: &configuration::Configuration, status_id: &str, update_event_action_status_request: Option<crate::models::UpdateEventActionStatusRequest>) -> Result<crate::models::UpdateEventActionStatusResponse, Error<UpdateEventActionStatusError>> {
+pub fn update_event_action_status(configuration: &configuration::Configuration, status_id: &str, update_event_action_status_request: Option<crate::models::UpdateEventActionStatusRequest>) -> Result<crate::models::UpdateEventActionStatusResponse, Error<UpdateEventActionStatusError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -354,10 +354,10 @@ pub async fn update_event_action_status(configuration: &configuration::Configura
     local_var_req_builder = local_var_req_builder.json(&update_event_action_status_request);
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)

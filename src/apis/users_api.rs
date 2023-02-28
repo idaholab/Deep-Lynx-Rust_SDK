@@ -159,7 +159,7 @@ pub enum UpdateUserError {
 
 
 /// Accepts a container invite for the current user. The token received in the container invite previously must be attached to this request as a query parameter.
-pub async fn accept_container_invite(configuration: &configuration::Configuration, token: &str) -> Result<crate::models::Generic200Response, Error<AcceptContainerInviteError>> {
+pub fn accept_container_invite(configuration: &configuration::Configuration, token: &str) -> Result<crate::models::Generic200Response, Error<AcceptContainerInviteError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -176,10 +176,10 @@ pub async fn accept_container_invite(configuration: &configuration::Configuratio
     };
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)
@@ -191,7 +191,7 @@ pub async fn accept_container_invite(configuration: &configuration::Configuratio
 }
 
 /// Assign a role to a user, roles must consist of role name and domain
-pub async fn assign_user_role(configuration: &configuration::Configuration, container_id: &str, body: crate::models::AssignRoleRequest) -> Result<crate::models::Generic200Response, Error<AssignUserRoleError>> {
+pub fn assign_user_role(configuration: &configuration::Configuration, container_id: &str, body: crate::models::AssignRoleRequest) -> Result<crate::models::Generic200Response, Error<AssignUserRoleError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -208,10 +208,10 @@ pub async fn assign_user_role(configuration: &configuration::Configuration, cont
     local_var_req_builder = local_var_req_builder.json(&body);
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)
@@ -223,7 +223,7 @@ pub async fn assign_user_role(configuration: &configuration::Configuration, cont
 }
 
 /// Creates a new service user for container
-pub async fn create_service_user(configuration: &configuration::Configuration, container_id: &str, create_service_user: Option<crate::models::CreateServiceUser>) -> Result<(), Error<CreateServiceUserError>> {
+pub fn create_service_user(configuration: &configuration::Configuration, container_id: &str, create_service_user: Option<crate::models::CreateServiceUser>) -> Result<(), Error<CreateServiceUserError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -240,10 +240,10 @@ pub async fn create_service_user(configuration: &configuration::Configuration, c
     local_var_req_builder = local_var_req_builder.json(&create_service_user);
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         Ok(())
@@ -255,7 +255,7 @@ pub async fn create_service_user(configuration: &configuration::Configuration, c
 }
 
 /// Creates a new api/secret keypair. This will return the secret as well - this is the only time that you will be able to see the secret.
-pub async fn create_service_user_key_pair(configuration: &configuration::Configuration, container_id: &str, service_user_id: &str) -> Result<(), Error<CreateServiceUserKeyPairError>> {
+pub fn create_service_user_key_pair(configuration: &configuration::Configuration, container_id: &str, service_user_id: &str) -> Result<(), Error<CreateServiceUserKeyPairError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -271,10 +271,10 @@ pub async fn create_service_user_key_pair(configuration: &configuration::Configu
     };
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         Ok(())
@@ -286,7 +286,7 @@ pub async fn create_service_user_key_pair(configuration: &configuration::Configu
 }
 
 /// Deletes a service user.
-pub async fn delete_service_user(configuration: &configuration::Configuration, container_id: &str, service_user_id: &str) -> Result<(), Error<DeleteServiceUserError>> {
+pub fn delete_service_user(configuration: &configuration::Configuration, container_id: &str, service_user_id: &str) -> Result<(), Error<DeleteServiceUserError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -302,10 +302,10 @@ pub async fn delete_service_user(configuration: &configuration::Configuration, c
     };
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         Ok(())
@@ -317,7 +317,7 @@ pub async fn delete_service_user(configuration: &configuration::Configuration, c
 }
 
 /// Delete a service user keypair.
-pub async fn delete_service_user_key_pair(configuration: &configuration::Configuration, container_id: &str, service_user_id: &str, key_id: &str) -> Result<(), Error<DeleteServiceUserKeyPairError>> {
+pub fn delete_service_user_key_pair(configuration: &configuration::Configuration, container_id: &str, service_user_id: &str, key_id: &str) -> Result<(), Error<DeleteServiceUserKeyPairError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -333,10 +333,10 @@ pub async fn delete_service_user_key_pair(configuration: &configuration::Configu
     };
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         Ok(())
@@ -348,7 +348,7 @@ pub async fn delete_service_user_key_pair(configuration: &configuration::Configu
 }
 
 /// Deletes the specified user.
-pub async fn delete_user(configuration: &configuration::Configuration, user_id: &str) -> Result<crate::models::Generic200Response, Error<DeleteUserError>> {
+pub fn delete_user(configuration: &configuration::Configuration, user_id: &str) -> Result<crate::models::Generic200Response, Error<DeleteUserError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -364,10 +364,10 @@ pub async fn delete_user(configuration: &configuration::Configuration, user_id: 
     };
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)
@@ -379,7 +379,7 @@ pub async fn delete_user(configuration: &configuration::Configuration, user_id: 
 }
 
 /// Get service user permissions.
-pub async fn get_service_user_permissions(configuration: &configuration::Configuration, container_id: &str, service_user_id: &str) -> Result<(), Error<GetServiceUserPermissionsError>> {
+pub fn get_service_user_permissions(configuration: &configuration::Configuration, container_id: &str, service_user_id: &str) -> Result<(), Error<GetServiceUserPermissionsError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -395,10 +395,10 @@ pub async fn get_service_user_permissions(configuration: &configuration::Configu
     };
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         Ok(())
@@ -410,7 +410,7 @@ pub async fn get_service_user_permissions(configuration: &configuration::Configu
 }
 
 /// Create a new user using the username_password identity type.
-pub async fn invite_user_to_container(configuration: &configuration::Configuration, container_id: &str, container_invite: Option<crate::models::ContainerInvite>) -> Result<crate::models::Generic200Response, Error<InviteUserToContainerError>> {
+pub fn invite_user_to_container(configuration: &configuration::Configuration, container_id: &str, container_invite: Option<crate::models::ContainerInvite>) -> Result<crate::models::Generic200Response, Error<InviteUserToContainerError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -427,10 +427,10 @@ pub async fn invite_user_to_container(configuration: &configuration::Configurati
     local_var_req_builder = local_var_req_builder.json(&container_invite);
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)
@@ -442,7 +442,7 @@ pub async fn invite_user_to_container(configuration: &configuration::Configurati
 }
 
 /// List all invitations to container.
-pub async fn list_invited_users_for_container(configuration: &configuration::Configuration, container_id: &str) -> Result<crate::models::ListContainerInvitesResponse, Error<ListInvitedUsersForContainerError>> {
+pub fn list_invited_users_for_container(configuration: &configuration::Configuration, container_id: &str) -> Result<crate::models::ListContainerInvitesResponse, Error<ListInvitedUsersForContainerError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -458,10 +458,10 @@ pub async fn list_invited_users_for_container(configuration: &configuration::Con
     };
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)
@@ -473,7 +473,7 @@ pub async fn list_invited_users_for_container(configuration: &configuration::Con
 }
 
 /// Lists the outstanding container invites for the current user.
-pub async fn list_outstanding_invites(configuration: &configuration::Configuration, ) -> Result<crate::models::ListUserInvitesResponse, Error<ListOutstandingInvitesError>> {
+pub fn list_outstanding_invites(configuration: &configuration::Configuration, ) -> Result<crate::models::ListUserInvitesResponse, Error<ListOutstandingInvitesError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -489,10 +489,10 @@ pub async fn list_outstanding_invites(configuration: &configuration::Configurati
     };
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)
@@ -504,7 +504,7 @@ pub async fn list_outstanding_invites(configuration: &configuration::Configurati
 }
 
 /// Lists a service user's api/secret keypairs. This lists only the key, not the secret.
-pub async fn list_service_user_key_pairs(configuration: &configuration::Configuration, container_id: &str, service_user_id: &str) -> Result<(), Error<ListServiceUserKeyPairsError>> {
+pub fn list_service_user_key_pairs(configuration: &configuration::Configuration, container_id: &str, service_user_id: &str) -> Result<(), Error<ListServiceUserKeyPairsError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -520,10 +520,10 @@ pub async fn list_service_user_key_pairs(configuration: &configuration::Configur
     };
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         Ok(())
@@ -535,7 +535,7 @@ pub async fn list_service_user_key_pairs(configuration: &configuration::Configur
 }
 
 /// Retrieve a list of all service users for container
-pub async fn list_service_users(configuration: &configuration::Configuration, container_id: &str) -> Result<crate::models::ListServiceUserResponse, Error<ListServiceUsersError>> {
+pub fn list_service_users(configuration: &configuration::Configuration, container_id: &str) -> Result<crate::models::ListServiceUserResponse, Error<ListServiceUsersError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -551,10 +551,10 @@ pub async fn list_service_users(configuration: &configuration::Configuration, co
     };
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)
@@ -566,7 +566,7 @@ pub async fn list_service_users(configuration: &configuration::Configuration, co
 }
 
 /// List permissions for the user.
-pub async fn list_user_permissions(configuration: &configuration::Configuration, ) -> Result<crate::models::ListUserPermissionsResponse, Error<ListUserPermissionsError>> {
+pub fn list_user_permissions(configuration: &configuration::Configuration, ) -> Result<crate::models::ListUserPermissionsResponse, Error<ListUserPermissionsError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -582,10 +582,10 @@ pub async fn list_user_permissions(configuration: &configuration::Configuration,
     };
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)
@@ -597,7 +597,7 @@ pub async fn list_user_permissions(configuration: &configuration::Configuration,
 }
 
 /// List users.
-pub async fn list_users(configuration: &configuration::Configuration, count: Option<bool>, load_keys: Option<bool>, limit: Option<i32>, offset: Option<i32>, sort_by: Option<&str>, sort_desc: Option<bool>) -> Result<crate::models::ListUsersResponse, Error<ListUsersError>> {
+pub fn list_users(configuration: &configuration::Configuration, count: Option<bool>, load_keys: Option<bool>, limit: Option<i32>, offset: Option<i32>, sort_by: Option<&str>, sort_desc: Option<bool>) -> Result<crate::models::ListUsersResponse, Error<ListUsersError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -631,10 +631,10 @@ pub async fn list_users(configuration: &configuration::Configuration, count: Opt
     };
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)
@@ -646,7 +646,7 @@ pub async fn list_users(configuration: &configuration::Configuration, count: Opt
 }
 
 /// List Users for container.
-pub async fn list_users_for_container(configuration: &configuration::Configuration, container_id: &str, limit: Option<i32>, offset: Option<i32>) -> Result<crate::models::ListUsersForContainerResponse, Error<ListUsersForContainerError>> {
+pub fn list_users_for_container(configuration: &configuration::Configuration, container_id: &str, limit: Option<i32>, offset: Option<i32>) -> Result<crate::models::ListUsersForContainerResponse, Error<ListUsersForContainerError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -668,10 +668,10 @@ pub async fn list_users_for_container(configuration: &configuration::Configurati
     };
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)
@@ -683,7 +683,7 @@ pub async fn list_users_for_container(configuration: &configuration::Configurati
 }
 
 /// List Users' roles
-pub async fn list_users_roles(configuration: &configuration::Configuration, container_id: &str, user_id: &str) -> Result<crate::models::ListUserRoles, Error<ListUsersRolesError>> {
+pub fn list_users_roles(configuration: &configuration::Configuration, container_id: &str, user_id: &str) -> Result<crate::models::ListUserRoles, Error<ListUsersRolesError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -699,10 +699,10 @@ pub async fn list_users_roles(configuration: &configuration::Configuration, cont
     };
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)
@@ -714,7 +714,7 @@ pub async fn list_users_roles(configuration: &configuration::Configuration, cont
 }
 
 /// Retrieve a user by ID
-pub async fn retrieve_user(configuration: &configuration::Configuration, container_id: &str, user_id: &str) -> Result<crate::models::GetUserResponse, Error<RetrieveUserError>> {
+pub fn retrieve_user(configuration: &configuration::Configuration, container_id: &str, user_id: &str) -> Result<crate::models::GetUserResponse, Error<RetrieveUserError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -730,10 +730,10 @@ pub async fn retrieve_user(configuration: &configuration::Configuration, contain
     };
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)
@@ -745,7 +745,7 @@ pub async fn retrieve_user(configuration: &configuration::Configuration, contain
 }
 
 /// Set service user permissions.
-pub async fn set_service_user_permissions(configuration: &configuration::Configuration, container_id: &str, service_user_id: &str, set_service_user_permissions_request: Option<crate::models::SetServiceUserPermissionsRequest>) -> Result<(), Error<SetServiceUserPermissionsError>> {
+pub fn set_service_user_permissions(configuration: &configuration::Configuration, container_id: &str, service_user_id: &str, set_service_user_permissions_request: Option<crate::models::SetServiceUserPermissionsRequest>) -> Result<(), Error<SetServiceUserPermissionsError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -762,10 +762,10 @@ pub async fn set_service_user_permissions(configuration: &configuration::Configu
     local_var_req_builder = local_var_req_builder.json(&set_service_user_permissions_request);
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         Ok(())
@@ -777,7 +777,7 @@ pub async fn set_service_user_permissions(configuration: &configuration::Configu
 }
 
 /// Updates the specified user.
-pub async fn update_user(configuration: &configuration::Configuration, user_id: &str, user: Option<crate::models::User>) -> Result<crate::models::Generic200Response, Error<UpdateUserError>> {
+pub fn update_user(configuration: &configuration::Configuration, user_id: &str, user: Option<crate::models::User>) -> Result<crate::models::Generic200Response, Error<UpdateUserError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -794,10 +794,10 @@ pub async fn update_user(configuration: &configuration::Configuration, user_id: 
     local_var_req_builder = local_var_req_builder.json(&user);
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)

@@ -69,7 +69,7 @@ pub enum SetDataTargetInactiveError {
 
 
 /// Archive a data target, with options to permanently remove it.
-pub async fn archive_data_target(configuration: &configuration::Configuration, container_id: &str, data_target_id: &str, archive: Option<&str>, force_delete: Option<&str>) -> Result<crate::models::Generic200Response, Error<ArchiveDataTargetError>> {
+pub fn archive_data_target(configuration: &configuration::Configuration, container_id: &str, data_target_id: &str, archive: Option<&str>, force_delete: Option<&str>) -> Result<crate::models::Generic200Response, Error<ArchiveDataTargetError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -91,10 +91,10 @@ pub async fn archive_data_target(configuration: &configuration::Configuration, c
     };
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)
@@ -106,7 +106,7 @@ pub async fn archive_data_target(configuration: &configuration::Configuration, c
 }
 
 /// Create new datatarget. Supported data target types are `http` and `standard`.
-pub async fn create_data_target(configuration: &configuration::Configuration, container_id: &str, body: Option<crate::models::CreateDataTargetRequest>) -> Result<crate::models::CreateDataTargetsResponse, Error<CreateDataTargetError>> {
+pub fn create_data_target(configuration: &configuration::Configuration, container_id: &str, body: Option<crate::models::CreateDataTargetRequest>) -> Result<crate::models::CreateDataTargetsResponse, Error<CreateDataTargetError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -123,10 +123,10 @@ pub async fn create_data_target(configuration: &configuration::Configuration, co
     local_var_req_builder = local_var_req_builder.json(&body);
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)
@@ -138,7 +138,7 @@ pub async fn create_data_target(configuration: &configuration::Configuration, co
 }
 
 /// List the datatargets for the container.
-pub async fn list_dat_targets(configuration: &configuration::Configuration, container_id: &str) -> Result<crate::models::ListDataTargetsResponse, Error<ListDatTargetsError>> {
+pub fn list_dat_targets(configuration: &configuration::Configuration, container_id: &str) -> Result<crate::models::ListDataTargetsResponse, Error<ListDatTargetsError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -154,10 +154,10 @@ pub async fn list_dat_targets(configuration: &configuration::Configuration, cont
     };
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)
@@ -169,7 +169,7 @@ pub async fn list_dat_targets(configuration: &configuration::Configuration, cont
 }
 
 /// Retrieve a single data target by ID.
-pub async fn retrieve_data_target(configuration: &configuration::Configuration, container_id: &str, data_target_id: &str) -> Result<crate::models::GetDataTargetResponse, Error<RetrieveDataTargetError>> {
+pub fn retrieve_data_target(configuration: &configuration::Configuration, container_id: &str, data_target_id: &str) -> Result<crate::models::GetDataTargetResponse, Error<RetrieveDataTargetError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -185,10 +185,10 @@ pub async fn retrieve_data_target(configuration: &configuration::Configuration, 
     };
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)
@@ -200,7 +200,7 @@ pub async fn retrieve_data_target(configuration: &configuration::Configuration, 
 }
 
 /// Sets a data target active.
-pub async fn set_data_target_active(configuration: &configuration::Configuration, container_id: &str, data_target_id: &str) -> Result<crate::models::Generic200Response, Error<SetDataTargetActiveError>> {
+pub fn set_data_target_active(configuration: &configuration::Configuration, container_id: &str, data_target_id: &str) -> Result<crate::models::Generic200Response, Error<SetDataTargetActiveError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -216,10 +216,10 @@ pub async fn set_data_target_active(configuration: &configuration::Configuration
     };
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)
@@ -231,7 +231,7 @@ pub async fn set_data_target_active(configuration: &configuration::Configuration
 }
 
 /// Updates a data target's configuration in storage. Note that this request body's structure must match that of the data target's adapter type.
-pub async fn set_data_target_configuration(configuration: &configuration::Configuration, container_id: &str, data_target_id: &str, body: crate::models::CreateDataTargetConfig) -> Result<crate::models::UpdateDataTargetResponse, Error<SetDataTargetConfigurationError>> {
+pub fn set_data_target_configuration(configuration: &configuration::Configuration, container_id: &str, data_target_id: &str, body: crate::models::CreateDataTargetConfig) -> Result<crate::models::UpdateDataTargetResponse, Error<SetDataTargetConfigurationError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -248,10 +248,10 @@ pub async fn set_data_target_configuration(configuration: &configuration::Config
     local_var_req_builder = local_var_req_builder.json(&body);
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)
@@ -263,7 +263,7 @@ pub async fn set_data_target_configuration(configuration: &configuration::Config
 }
 
 /// Sets a data target inactive.
-pub async fn set_data_target_inactive(configuration: &configuration::Configuration, container_id: &str, data_target_id: &str) -> Result<crate::models::Generic200Response, Error<SetDataTargetInactiveError>> {
+pub fn set_data_target_inactive(configuration: &configuration::Configuration, container_id: &str, data_target_id: &str) -> Result<crate::models::Generic200Response, Error<SetDataTargetInactiveError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -279,10 +279,10 @@ pub async fn set_data_target_inactive(configuration: &configuration::Configurati
     };
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)

@@ -52,7 +52,7 @@ pub enum UpdateMetatypeKeyError {
 
 
 /// Archiving the metatype key prevents any new types from implementing the key. It *does not remove key/value pairs on existing types*. We highly recommend you archive type keys instead of deleting them so that previous data is not affected.
-pub async fn archive_metatype_key(configuration: &configuration::Configuration, container_id: &str, metatype_id: &str, key_id: &str) -> Result<crate::models::Generic200Response, Error<ArchiveMetatypeKeyError>> {
+pub fn archive_metatype_key(configuration: &configuration::Configuration, container_id: &str, metatype_id: &str, key_id: &str) -> Result<crate::models::Generic200Response, Error<ArchiveMetatypeKeyError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -68,10 +68,10 @@ pub async fn archive_metatype_key(configuration: &configuration::Configuration, 
     };
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)
@@ -83,7 +83,7 @@ pub async fn archive_metatype_key(configuration: &configuration::Configuration, 
 }
 
 /// Creates a new key for a metatype. Keys consist of a unique key name (unique to the metatype only), key type, default values, and allowed values. Of those, only the first two are required. The `dataType` field accepts only one of the following values: number, string, date, boolean, enumeration, file.  The fields `defaultValue` and `options` will only accept an array of the following types: string, boolean, number, float. Pass in an array for bulk creation. Currently the validation and cardinality functionality of keys are NOT checked at data insertion.
-pub async fn create_metatype_key(configuration: &configuration::Configuration, container_id: &str, metatype_id: &str, body: crate::models::CreateMetatypeKeyRequest) -> Result<crate::models::CreateMetatypeKeysResponse, Error<CreateMetatypeKeyError>> {
+pub fn create_metatype_key(configuration: &configuration::Configuration, container_id: &str, metatype_id: &str, body: crate::models::CreateMetatypeKeyRequest) -> Result<crate::models::CreateMetatypeKeysResponse, Error<CreateMetatypeKeyError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -100,10 +100,10 @@ pub async fn create_metatype_key(configuration: &configuration::Configuration, c
     local_var_req_builder = local_var_req_builder.json(&body);
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)
@@ -115,7 +115,7 @@ pub async fn create_metatype_key(configuration: &configuration::Configuration, c
 }
 
 /// Lists all currently valid and available keys for the metatype.
-pub async fn list_metatypes_keys(configuration: &configuration::Configuration, container_id: &str, metatype_id: &str) -> Result<crate::models::ListMetatypeKeysResponse, Error<ListMetatypesKeysError>> {
+pub fn list_metatypes_keys(configuration: &configuration::Configuration, container_id: &str, metatype_id: &str) -> Result<crate::models::ListMetatypeKeysResponse, Error<ListMetatypesKeysError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -131,10 +131,10 @@ pub async fn list_metatypes_keys(configuration: &configuration::Configuration, c
     };
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)
@@ -146,7 +146,7 @@ pub async fn list_metatypes_keys(configuration: &configuration::Configuration, c
 }
 
 /// Retrieve the specified key for the metatype.
-pub async fn retrieve_metatype_key(configuration: &configuration::Configuration, container_id: &str, metatype_id: &str, key_id: &str) -> Result<crate::models::GetMetatypeKeyResponse, Error<RetrieveMetatypeKeyError>> {
+pub fn retrieve_metatype_key(configuration: &configuration::Configuration, container_id: &str, metatype_id: &str, key_id: &str) -> Result<crate::models::GetMetatypeKeyResponse, Error<RetrieveMetatypeKeyError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -162,10 +162,10 @@ pub async fn retrieve_metatype_key(configuration: &configuration::Configuration,
     };
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)
@@ -177,7 +177,7 @@ pub async fn retrieve_metatype_key(configuration: &configuration::Configuration,
 }
 
 /// Updates a single key for a metatype.
-pub async fn update_metatype_key(configuration: &configuration::Configuration, container_id: &str, metatype_id: &str, key_id: &str, body: crate::models::MetatypeKey) -> Result<crate::models::UpdateMetatypeKeyResponse, Error<UpdateMetatypeKeyError>> {
+pub fn update_metatype_key(configuration: &configuration::Configuration, container_id: &str, metatype_id: &str, key_id: &str, body: crate::models::MetatypeKey) -> Result<crate::models::UpdateMetatypeKeyResponse, Error<UpdateMetatypeKeyError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -194,10 +194,10 @@ pub async fn update_metatype_key(configuration: &configuration::Configuration, c
     local_var_req_builder = local_var_req_builder.json(&body);
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)

@@ -94,7 +94,7 @@ pub enum UpdateTransformationError {
 
 
 /// This endpoint copies transformations from the {originalMappingID} type mapping (final parameter) to the {mappingID} type mapping. This POST has NO body.
-pub async fn copy_transformations(configuration: &configuration::Configuration, container_id: &str, source_id: &str, mapping_id: &str, original_mapping_id: &str) -> Result<(), Error<CopyTransformationsError>> {
+pub fn copy_transformations(configuration: &configuration::Configuration, container_id: &str, source_id: &str, mapping_id: &str, original_mapping_id: &str) -> Result<(), Error<CopyTransformationsError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -110,10 +110,10 @@ pub async fn copy_transformations(configuration: &configuration::Configuration, 
     };
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         Ok(())
@@ -125,7 +125,7 @@ pub async fn copy_transformations(configuration: &configuration::Configuration, 
 }
 
 /// Create a transformation for the type mapping.
-pub async fn create_transformation(configuration: &configuration::Configuration, container_id: &str, data_source_id: &str, mapping_id: &str, body: crate::models::CreateTypeMappingTransformationsRequest) -> Result<crate::models::CreateTransformationResponse, Error<CreateTransformationError>> {
+pub fn create_transformation(configuration: &configuration::Configuration, container_id: &str, data_source_id: &str, mapping_id: &str, body: crate::models::CreateTypeMappingTransformationsRequest) -> Result<crate::models::CreateTransformationResponse, Error<CreateTransformationError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -142,10 +142,10 @@ pub async fn create_transformation(configuration: &configuration::Configuration,
     local_var_req_builder = local_var_req_builder.json(&body);
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)
@@ -157,7 +157,7 @@ pub async fn create_transformation(configuration: &configuration::Configuration,
 }
 
 /// Permanently remove data type mapping.
-pub async fn delete_data_type_mapping(configuration: &configuration::Configuration, container_id: &str, data_source_id: &str, mapping_id: &str) -> Result<crate::models::Generic200Response, Error<DeleteDataTypeMappingError>> {
+pub fn delete_data_type_mapping(configuration: &configuration::Configuration, container_id: &str, data_source_id: &str, mapping_id: &str) -> Result<crate::models::Generic200Response, Error<DeleteDataTypeMappingError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -173,10 +173,10 @@ pub async fn delete_data_type_mapping(configuration: &configuration::Configurati
     };
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)
@@ -188,7 +188,7 @@ pub async fn delete_data_type_mapping(configuration: &configuration::Configurati
 }
 
 /// Delete a transformation.
-pub async fn delete_transformation(configuration: &configuration::Configuration, container_id: &str, data_source_id: &str, mapping_id: &str, transformation_id: &str) -> Result<crate::models::Generic200Response, Error<DeleteTransformationError>> {
+pub fn delete_transformation(configuration: &configuration::Configuration, container_id: &str, data_source_id: &str, mapping_id: &str, transformation_id: &str) -> Result<crate::models::Generic200Response, Error<DeleteTransformationError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -204,10 +204,10 @@ pub async fn delete_transformation(configuration: &configuration::Configuration,
     };
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)
@@ -219,7 +219,7 @@ pub async fn delete_transformation(configuration: &configuration::Configuration,
 }
 
 /// Export type mappings for a datasource. Providing a JSON body is optional. If provided, the mapping_ids may be specified to indicate certain type mapping IDs to return. Additionally, a target data source may be provided to which the mappings will be copied.
-pub async fn export_type_mappings(configuration: &configuration::Configuration, container_id: &str, data_source_id: &str, type_mapping_export_payload: Option<crate::models::TypeMappingExportPayload>) -> Result<Vec<crate::models::TypeMapping>, Error<ExportTypeMappingsError>> {
+pub fn export_type_mappings(configuration: &configuration::Configuration, container_id: &str, data_source_id: &str, type_mapping_export_payload: Option<crate::models::TypeMappingExportPayload>) -> Result<Vec<crate::models::TypeMapping>, Error<ExportTypeMappingsError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -236,10 +236,10 @@ pub async fn export_type_mappings(configuration: &configuration::Configuration, 
     local_var_req_builder = local_var_req_builder.json(&type_mapping_export_payload);
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)
@@ -251,7 +251,7 @@ pub async fn export_type_mappings(configuration: &configuration::Configuration, 
 }
 
 /// Import type mappings for a datasource. Accepts either a JSON body or actual JSON file. The payload should be an array of type mapping classes, previously generated using the export route.
-pub async fn import_data_type_mappings(configuration: &configuration::Configuration, container_id: &str, data_source_id: &str, is_enabled: Option<bool>, import_data_type_mappings_request: Option<crate::models::ImportDataTypeMappingsRequest>) -> Result<Vec<crate::models::ImportDataTypeMappingResponseInner>, Error<ImportDataTypeMappingsError>> {
+pub fn import_data_type_mappings(configuration: &configuration::Configuration, container_id: &str, data_source_id: &str, is_enabled: Option<bool>, import_data_type_mappings_request: Option<crate::models::ImportDataTypeMappingsRequest>) -> Result<Vec<crate::models::ImportDataTypeMappingResponseInner>, Error<ImportDataTypeMappingsError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -271,10 +271,10 @@ pub async fn import_data_type_mappings(configuration: &configuration::Configurat
     local_var_req_builder = local_var_req_builder.json(&import_data_type_mappings_request);
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)
@@ -286,7 +286,7 @@ pub async fn import_data_type_mappings(configuration: &configuration::Configurat
 }
 
 /// Lists data type mappings for the data source
-pub async fn list_data_type_mappings(configuration: &configuration::Configuration, container_id: &str, data_source_id: &str, limit: Option<i32>, offset: Option<i32>, needs_transformations: Option<bool>, count: Option<bool>, sort_by: Option<&str>, sort_desc: Option<bool>, resulting_metatype_name: Option<&str>, resulting_metatype_relationship_name: Option<&str>) -> Result<crate::models::ListDataTypeMappingResponse, Error<ListDataTypeMappingsError>> {
+pub fn list_data_type_mappings(configuration: &configuration::Configuration, container_id: &str, data_source_id: &str, limit: Option<i32>, offset: Option<i32>, needs_transformations: Option<bool>, count: Option<bool>, sort_by: Option<&str>, sort_desc: Option<bool>, resulting_metatype_name: Option<&str>, resulting_metatype_relationship_name: Option<&str>) -> Result<crate::models::ListDataTypeMappingResponse, Error<ListDataTypeMappingsError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -326,10 +326,10 @@ pub async fn list_data_type_mappings(configuration: &configuration::Configuratio
     };
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)
@@ -341,7 +341,7 @@ pub async fn list_data_type_mappings(configuration: &configuration::Configuratio
 }
 
 /// List transformations for a type mapping from storage.
-pub async fn list_transformations(configuration: &configuration::Configuration, container_id: &str, data_source_id: &str, mapping_id: &str) -> Result<crate::models::ListTransformationResponse, Error<ListTransformationsError>> {
+pub fn list_transformations(configuration: &configuration::Configuration, container_id: &str, data_source_id: &str, mapping_id: &str) -> Result<crate::models::ListTransformationResponse, Error<ListTransformationsError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -357,10 +357,10 @@ pub async fn list_transformations(configuration: &configuration::Configuration, 
     };
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)
@@ -372,7 +372,7 @@ pub async fn list_transformations(configuration: &configuration::Configuration, 
 }
 
 /// Retrieve a data type mapping
-pub async fn retrieve_data_type_mapping(configuration: &configuration::Configuration, container_id: &str, data_source_id: &str, mapping_id: &str) -> Result<crate::models::GetDataTypeMappingResponse, Error<RetrieveDataTypeMappingError>> {
+pub fn retrieve_data_type_mapping(configuration: &configuration::Configuration, container_id: &str, data_source_id: &str, mapping_id: &str) -> Result<crate::models::GetDataTypeMappingResponse, Error<RetrieveDataTypeMappingError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -388,10 +388,10 @@ pub async fn retrieve_data_type_mapping(configuration: &configuration::Configura
     };
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)
@@ -403,7 +403,7 @@ pub async fn retrieve_data_type_mapping(configuration: &configuration::Configura
 }
 
 /// Updates a data type mapping.
-pub async fn update_data_type_mapping(configuration: &configuration::Configuration, container_id: &str, data_source_id: &str, mapping_id: &str, type_mapping: Option<crate::models::TypeMapping>) -> Result<crate::models::UpdateDataTypeMappingResponse, Error<UpdateDataTypeMappingError>> {
+pub fn update_data_type_mapping(configuration: &configuration::Configuration, container_id: &str, data_source_id: &str, mapping_id: &str, type_mapping: Option<crate::models::TypeMapping>) -> Result<crate::models::UpdateDataTypeMappingResponse, Error<UpdateDataTypeMappingError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -420,10 +420,10 @@ pub async fn update_data_type_mapping(configuration: &configuration::Configurati
     local_var_req_builder = local_var_req_builder.json(&type_mapping);
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)
@@ -435,7 +435,7 @@ pub async fn update_data_type_mapping(configuration: &configuration::Configurati
 }
 
 /// Update a transformation.
-pub async fn update_transformation(configuration: &configuration::Configuration, container_id: &str, data_source_id: &str, mapping_id: &str, transformation_id: &str, body: crate::models::CreateTypeMappingTransformationsRequest) -> Result<crate::models::UpdateTransformationResponse, Error<UpdateTransformationError>> {
+pub fn update_transformation(configuration: &configuration::Configuration, container_id: &str, data_source_id: &str, mapping_id: &str, transformation_id: &str, body: crate::models::CreateTypeMappingTransformationsRequest) -> Result<crate::models::UpdateTransformationResponse, Error<UpdateTransformationError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -452,10 +452,10 @@ pub async fn update_transformation(configuration: &configuration::Configuration,
     local_var_req_builder = local_var_req_builder.json(&body);
 
     let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)
